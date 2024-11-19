@@ -14,4 +14,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\ControladoraCarreras\" />
+    <Folder Include="Views\ControladoraEstadisticas\" />
+  </ItemGroup>
+
 </Project>

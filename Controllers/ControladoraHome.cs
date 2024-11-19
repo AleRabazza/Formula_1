@@ -1,4 +1,4 @@
-using Formula_1.Models;
+﻿using Formula_1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,7 +13,7 @@ namespace Formula_1.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Listado()
         {
             return View();
         }

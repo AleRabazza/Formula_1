@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Escuderia>
+
+
+
+<h2>Escuderia de Formula 1</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>SponsorPrincipal</th>
+            <th>Pais de Origen</th>
+            <th>Puntaje Acumulado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Escuderia escuderia in Model)
+        {
+            <tr>
+                <td>@escuderia.Nombre</td>
+                <td>@escuderia.SponsorPrincipal </td>
+                <td>@escuderia.PaisDeOrigen</td>
+                <td>@escuderia.PuntajeAcumulado</td>
+                <td>
+                    <a href="@Url.Action("Editar", new { id = escuderia.IdEscuderia })" class="btn btn-warning">Editar</a>
+                    <a href="@Url.Action("Eliminar", new { id = escuderia.IdEscuderia })" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Crear")" class="btn btn-primary text-center">Agregar Escuderia</a>

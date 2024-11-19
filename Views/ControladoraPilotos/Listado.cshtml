@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Piloto>
+
+
+
+<h2>Pilotos de Formula 1</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Escuderia</th>
+            <th>Nombre</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Pais de Origen</th>
+            <th>Puntaje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Piloto piloto in Model)
+        {
+            <tr>
+                <td>@piloto.NumeroPiloto</td>
+                <td>@piloto.escuderia.Nombre</td>
+                <td>@piloto.NombrePiloto</td>
+                <td>@piloto.FechaNac</td>
+                <td>@piloto.PaisDeOrigen</td>
+                <td>@piloto.PuntajeAcumulado</td>
+                <td>
+                    <a href="@Url.Action("Editar", new { id = piloto.NumeroPiloto })" class="btn btn-warning">Editar</a>
+                    <a href="@Url.Action("Eliminar", new { id = piloto.NumeroPiloto })" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Crear")" class="btn btn-primary">Agregar Piloto</a>
