@@ -14,5 +14,7 @@ namespace Formula_1.Models
         public string PaisDeOrigen {  get; set; }
 
         public string SponsorPrincipal { get; set; }
+
+        public int CantidadDePilotos { get; set; }
     }
 }

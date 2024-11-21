@@ -1,5 +1,40 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿﻿
+<h1>Crear nuevo perfil de Piloto</h1>
+
+<p class="text-danger">@ViewBag.Error</p>
+
+<form action="/ControladoraPilotos/Crear" method="post">
+    <div class="form-control">
+        <label for="Nombre">Nombre</label>
+        <input type="text" name="nombre" value="@ViewBag.Nombre"/>
+    </div>
+    <div class="form-control">
+        <label for="Numero">Numero del piloto</label>
+        <input type="number" name="numero" value="@ViewBag.Numero">
+    </div>
+    <div class="form-control">
+        <label for="FechaNac">Fecha de Nacimiento</label>
+        <input type="date" name="FechaNac" value="@ViewBag.FechaNac">
+    </div>
+    <div class="form-control">
+        <label for="PaisOrg">Pais de Origen</label>
+        <input type="text" name="PaisOrg" value="@ViewBag.FechaNac">
+    </div>
+    <div class="form-control">
+        <label for="PaisOrg">Pais de Origen</label>
+        <input type="text" name="PaisOrg" value="@ViewBag.PaisOrg">
+    </div>
+    <div class="form-control">
+        <label for="Escuderia">Selecione su Escuderia</label>
+        <select" name="Escuderia" >
+            @foreach (Escuderia escuderia in ViewBag.ListaEscuderias)
+            {
+                <option value="@escuderia.IdEscuderia">@escuderia.Nombre</option>
+            }
+        </select>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="/ControladoraPilotos/Listado" class="btn btn-secondary">Cancelar</a>
+</form>
