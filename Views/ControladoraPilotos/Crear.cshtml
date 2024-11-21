@@ -27,7 +27,7 @@
     <div class="form-control">
         <label for="Escuderia">Selecione su Escuderia</label>
         <select" name="Escuderia" >
-            @foreach (Escuderia escuderia in ViewBag.ListaEscuderias)
+            @foreach (Escuderia escuderia in ViewBag.Escuderias)
             {
                 <option value="@escuderia.IdEscuderia">@escuderia.Nombre</option>
             }
