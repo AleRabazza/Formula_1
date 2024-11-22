@@ -3,6 +3,7 @@ using Formula_1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Formula_1.Controllers
 {
@@ -18,12 +19,13 @@ namespace Formula_1.Controllers
         // GET: ControladoraEscuderias
         public ActionResult Listado()
         {
-            List<Escuderia> ListaEsc = _context.Escuderia.ToList();
-            return View(ListaEsc);
+            List<Escuderia> listaEscuderias = _context.Escuderia.ToList();
+            ViewBag.Escuderias = listaEscuderias;
+            return View();
         }
 
-        // GET: ControladoraEscuderias/Details/5
-        public ActionResult Details(int? IdEscuderia)
+
+        public ActionResult Detalles(int? IdEscuderia)
         {
             if (IdEscuderia == null)
             {
@@ -40,67 +42,82 @@ namespace Formula_1.Controllers
             return View(escuderiaDetalles);
         }
 
-        // GET: ControladoraEscuderias/Create
-        public ActionResult Create()
+
+        [HttpPost]
+        public ActionResult Crear(string nombre, string paisDeOrigen, string sponsorPrincipal, int puntajeAcumulado)
+        {
+            Escuderia nuevaEscuderia = new Escuderia(nombre, paisDeOrigen, sponsorPrincipal, puntajeAcumulado);
+            if (nuevaEscuderia.Validacion())
+            {
+                _context.Escuderia.Add(nuevaEscuderia);
+                _context.SaveChanges();
+                return RedirectToAction("Listado");
+            }
+
+            ViewBag.Error = "Los datos ingresados no son validos";
+            ViewBag.Nombre = nombre;
+            ViewBag.Pais = paisDeOrigen;
+            ViewBag.SponsorPrincipal = sponsorPrincipal;
+            ViewBag.Puntaje = puntajeAcumulado;
+
+
+            return View("Crear");
+        }
+
+        public ActionResult Crear()
         {
             return View();
         }
 
-        // POST: ControladoraEscuderias/Create
+
+        public IActionResult Editar(int id)
+        {
+            var escuderia = _context.Escuderia.Find(id);
+            if (escuderia == null)
+            {
+                return NotFound();
+            }
+            return View(escuderia);
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Editar(int id, string nombre, string paisOrigen, string sponsorPrincipal, int puntaje) 
         {
-            try
+            Escuderia escuderia = _context.Escuderia.Find(id);
+            if (escuderia == null) {
+
+                return NotFound();
+             }
+
+            escuderia.Nombre=nombre;
+            escuderia.PaisDeOrigen=paisOrigen;
+            escuderia.SponsorPrincipal=sponsorPrincipal;
+            escuderia.PuntajeAcumulado= puntaje;
+
+            if (escuderia.Validacion())
             {
-                return RedirectToAction(nameof(Index));
+                _context.Escuderia.Update(escuderia);
+                _context.SaveChanges();
+                return RedirectToAction("Listado");
             }
-            catch
-            {
-                return View();
-            }
+            return View("Editar");
         }
 
-        // GET: ControladoraEscuderias/Edit/5
-        public ActionResult Edit(int id)
+       
+        public ActionResult Eliminar(int id)
         {
-            return View();
-        }
-
-        // POST: ControladoraEscuderias/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
+            if (id == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            Escuderia escuderia = _context.Escuderia.Find(id);
+            if (escuderia == null)
             {
-                return View();
+                return NotFound();
             }
-        }
-
-        // GET: ControladoraEscuderias/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ControladoraEscuderias/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _context.Escuderia.Remove(escuderia);
+            _context.SaveChanges();
+            return RedirectToAction("Listado");
         }
     }
 }

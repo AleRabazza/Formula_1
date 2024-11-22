@@ -5,29 +5,31 @@
 }
 
 <h2>Crear Escudería</h2>
+<p class="text-warning">@ViewBag.Error</p>
 
 <form asp-action="Crear" method="post" class="form-group">
+    <input type="hidden" name="id" value="@Model.IdEscuderia"
     <div class="mb-3">
         <label for="Nombre" class="form-label">Nombre</label>
-        <input type="text" id="Nombre" name="Nombre" class="form-control" required />
+        <input type="text" name="Nombre" class="form-control"/>
     </div>
 
     <div class="mb-3">
         <label for="PuntajeAcumulado" class="form-label">Puntaje Acumulado</label>
-        <input type="number" id="PuntajeAcumulado" name="PuntajeAcumulado" class="form-control" required />
-    </div>
+        <input type="number" name="PuntajeAcumulado" class="form-control"  />
+    </div>  
 
     <div class="mb-3">
         <label for="PaisDeOrigen" class="form-label">País de Origen</label>
-        <input type="text" id="PaisDeOrigen" name="PaisDeOrigen" class="form-control" required />
+        <input type="text" name="PaisDeOrigen" class="form-control"  />
     </div>
 
     <div class="mb-3">
         <label for="SponsorPrincipal" class="form-label">Sponsor Principal</label>
-        <input type="text" id="SponsorPrincipal" name="SponsorPrincipal" class="form-control" required />
+        <input type="text"  name="SponsorPrincipal" class="form-control"  />
     </div>
 
     <button type="submit" class="btn btn-success">Guardar</button>
     <a href="@Url.Action("Listado", "ControladoraEscuderias")" class="btn btn-secondary">Cancelar</a>
-    <a href="@Url.Action("Listado", "ControladoraEscuderias")" class="btn btn-primary">Guardar</a>
+  
 </form>

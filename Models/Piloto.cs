@@ -16,5 +16,21 @@ namespace Formula_1.Models
         public Escuderia escuderia { get; set; }
 
         public int PuntajeAcumulado { get; set; }
+
+        public int IdEscuderia { get; set; }
+
+        public Piloto()
+        {
+        }
+
+        public Piloto(int numeroPiloto, string nombrePiloto, DateOnly fechaNac, string paisDeOrigen, Escuderia escuderia, int puntajeAcumulado)
+        {
+            NumeroPiloto = numeroPiloto;
+            NombrePiloto = nombrePiloto;
+            FechaNac = fechaNac;
+            PaisDeOrigen = paisDeOrigen;
+            this.escuderia = escuderia;
+            PuntajeAcumulado = puntajeAcumulado;
+        }
     }
 }
