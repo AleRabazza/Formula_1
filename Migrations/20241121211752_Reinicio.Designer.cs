@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Formula_1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241119124938_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241121211752_Reinicio")]
+    partial class Reinicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,9 @@ namespace Formula_1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEscuderia"));
 
+                    b.Property<int>("CantidadDePilotos")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -91,6 +94,9 @@ namespace Formula_1.Migrations
                     b.Property<string>("NombrePiloto")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumeroAuto")
+                        .HasColumnType("int");
 
                     b.Property<string>("PaisDeOrigen")
                         .IsRequired()

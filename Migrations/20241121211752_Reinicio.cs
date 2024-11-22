@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Formula_1.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Reinicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,8 @@ namespace Formula_1.Migrations
                     PuntajeAcumulado = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PaisDeOrigen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SponsorPrincipal = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SponsorPrincipal = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CantidadDePilotos = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,6 +49,7 @@ namespace Formula_1.Migrations
                 {
                     NumeroPiloto = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    NumeroAuto = table.Column<int>(type: "int", nullable: false),
                     NombrePiloto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaNac = table.Column<DateOnly>(type: "date", nullable: false),
                     PaisDeOrigen = table.Column<string>(type: "nvarchar(max)", nullable: false),
