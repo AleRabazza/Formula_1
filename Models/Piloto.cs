@@ -24,14 +24,14 @@ namespace Formula_1.Models
         {
         }
 
-        public Piloto(int numeroPiloto, string nombrePiloto, DateOnly fechaNac, string paisDeOrigen, Escuderia escuderia, int puntajeAcumulado)
+        public Piloto(int numeroPiloto, string nombrePiloto, DateOnly fechaNac, string paisDeOrigen, Escuderia escuderia)
         {
             NumeroPiloto = numeroPiloto;
             NombrePiloto = nombrePiloto;
             FechaNac = fechaNac;
             PaisDeOrigen = paisDeOrigen;
             this.escuderia = escuderia;
-            PuntajeAcumulado = puntajeAcumulado;
+            PuntajeAcumulado = 0;
         }
     }
 }
