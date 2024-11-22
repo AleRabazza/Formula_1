@@ -85,11 +85,11 @@ namespace Formula_1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NumeroPiloto"));
 
+                    b.Property<int>("EscuderiaId")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("FechaNac")
                         .HasColumnType("date");
-
-                    b.Property<int>("IdEscuderia")
-                        .HasColumnType("int");
 
                     b.Property<string>("NombrePiloto")
                         .IsRequired()
@@ -107,7 +107,7 @@ namespace Formula_1.Migrations
 
                     b.HasKey("NumeroPiloto");
 
-                    b.HasIndex("IdEscuderia");
+                    b.HasIndex("EscuderiaId");
 
                     b.ToTable("Pilotos");
                 });
@@ -120,55 +120,32 @@ namespace Formula_1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdResultado"));
 
+                    b.Property<int>("IdCarrera")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPiloto")
+                        .HasColumnType("int");
+
                     b.Property<int>("PosicionLlegada")
                         .HasColumnType("int");
 
                     b.Property<int>("PosicionSalida")
                         .HasColumnType("int");
 
-                    b.Property<int>("carreraIdCarrera")
-                        .HasColumnType("int");
-
-                    b.Property<int>("pilotoNumeroPiloto")
-                        .HasColumnType("int");
-
                     b.HasKey("IdResultado");
-
-                    b.HasIndex("carreraIdCarrera");
-
-                    b.HasIndex("pilotoNumeroPiloto");
 
                     b.ToTable("Resultados");
                 });
 
             modelBuilder.Entity("Formula_1.Models.Piloto", b =>
                 {
-                    b.HasOne("Formula_1.Models.Escuderia", "escuderia")
+                    b.HasOne("Formula_1.Models.Escuderia", "Escuderia")
                         .WithMany("pilotos")
-                        .HasForeignKey("IdEscuderia")
+                        .HasForeignKey("EscuderiaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("escuderia");
-                });
-
-            modelBuilder.Entity("Formula_1.Models.Resultado", b =>
-                {
-                    b.HasOne("Formula_1.Models.Carrera", "carrera")
-                        .WithMany()
-                        .HasForeignKey("carreraIdCarrera")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Formula_1.Models.Piloto", "piloto")
-                        .WithMany()
-                        .HasForeignKey("pilotoNumeroPiloto")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("carrera");
-
-                    b.Navigation("piloto");
+                    b.Navigation("Escuderia");
                 });
 
             modelBuilder.Entity("Formula_1.Models.Escuderia", b =>

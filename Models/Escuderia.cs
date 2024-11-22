@@ -18,6 +18,7 @@ namespace Formula_1.Models
         public List<Piloto> pilotos { get; set; }
 
         public int CantidadDePilotos { get; set; }
+
         public Escuderia() { }
 
         public Escuderia(string nombre, string paisDeOrigen, string sponsorPrincipal, int puntajeAcumulado)
@@ -26,7 +27,7 @@ namespace Formula_1.Models
             Nombre = nombre;
             PaisDeOrigen = paisDeOrigen;
             SponsorPrincipal = sponsorPrincipal;
-            PuntajeAcumulado = puntajeAcumulado;
+            PuntajeAcumulado = 0;
 
 
         }

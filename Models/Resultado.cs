@@ -7,9 +7,9 @@ namespace Formula_1.Models
         [Key]
         public int IdResultado {  get; set; }
 
-        public Carrera carrera { get; set; }
+        public int IdCarrera { get; set; }
 
-        public Piloto piloto { get; set; }
+        public int IdPiloto { get; set; }
 
         public int PosicionSalida { get; set; }
 

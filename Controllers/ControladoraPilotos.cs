@@ -45,15 +45,9 @@ namespace Formula_1.Controllers
         // GET: ControladoraPilotos/Create
         public IActionResult Crear()
         {
-            ViewBag.Escuderias = _context.Escuderia.ToList();
-            foreach (Escuderia escuderia in ViewBag.Escuderias)
-            {
-                if (escuderia.CantidadDePilotos == 2)
-                {
-                    ViewBag.Escuderias.Remove(escuderia);
-                }
-            }
-            
+            List<Escuderia> escuderiaLista = _context.Escuderia.Where(esc => esc.CantidadDePilotos < 2).ToList();
+            ViewBag.Escuderias = escuderiaLista;
+           
             return View();
         }
 
@@ -68,7 +62,7 @@ namespace Formula_1.Controllers
             }
 
             List<Escuderia> ListaEsc = _context.Escuderia.ToList();
-            Escuderia? esc1;
+            Escuderia esc1;
 
             if ((ListaEsc.Find(esc => esc.IdEscuderia == Escuderia) == null))
             {
@@ -79,7 +73,7 @@ namespace Formula_1.Controllers
                 return View("Crear");
             }
 
-            Piloto piloto = new Piloto(nombre, numero, FechaNac, PaisOrg, Escuderia); 
+            Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, esc1); 
             _context.Pilotos.Add(piloto);
             _context.SaveChanges();
 
