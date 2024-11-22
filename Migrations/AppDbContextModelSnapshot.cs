@@ -95,6 +95,9 @@ namespace Formula_1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NumeroAuto")
+                        .HasColumnType("int");
+
                     b.Property<string>("PaisDeOrigen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

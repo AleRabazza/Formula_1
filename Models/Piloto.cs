@@ -6,6 +6,7 @@ namespace Formula_1.Models
     {
         [Key]
         public int NumeroPiloto { get; set; }
+        public int NumeroAuto { get; set; }
 
         public string NombrePiloto { get; set; }
 
