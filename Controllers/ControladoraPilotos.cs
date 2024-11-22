@@ -45,6 +45,15 @@ namespace Formula_1.Controllers
         // GET: ControladoraPilotos/Create
         public ActionResult Create()
         {
+            List<Escuderia> ListaEscuderias = _context.Escuderia.ToList();
+            foreach (Escuderia escuderia in ListaEscuderias)
+            {
+                if (escuderia.CantidadDePilotos == 2)
+                {
+                    ListaEscuderias.Remove(escuderia);
+                }
+            }
+            ViewBag.ListaEscdueriasDisponibles = ListaEscuderias;
             return View();
         }
 

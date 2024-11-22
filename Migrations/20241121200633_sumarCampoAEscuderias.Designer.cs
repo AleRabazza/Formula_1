@@ -4,6 +4,7 @@ using Formula_1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Formula_1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241121200633_sumarCampoAEscuderias")]
+    partial class sumarCampoAEscuderias
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,9 +91,6 @@ namespace Formula_1.Migrations
                     b.Property<DateOnly>("FechaNac")
                         .HasColumnType("date");
 
-                    b.Property<int>("IdEscuderia")
-                        .HasColumnType("int");
-
                     b.Property<string>("NombrePiloto")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -102,9 +102,12 @@ namespace Formula_1.Migrations
                     b.Property<int>("PuntajeAcumulado")
                         .HasColumnType("int");
 
+                    b.Property<int>("escuderiaIdEscuderia")
+                        .HasColumnType("int");
+
                     b.HasKey("NumeroPiloto");
 
-                    b.HasIndex("IdEscuderia");
+                    b.HasIndex("escuderiaIdEscuderia");
 
                     b.ToTable("Pilotos");
                 });
@@ -141,8 +144,8 @@ namespace Formula_1.Migrations
             modelBuilder.Entity("Formula_1.Models.Piloto", b =>
                 {
                     b.HasOne("Formula_1.Models.Escuderia", "escuderia")
-                        .WithMany("pilotos")
-                        .HasForeignKey("IdEscuderia")
+                        .WithMany()
+                        .HasForeignKey("escuderiaIdEscuderia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -166,11 +169,6 @@ namespace Formula_1.Migrations
                     b.Navigation("carrera");
 
                     b.Navigation("piloto");
-                });
-
-            modelBuilder.Entity("Formula_1.Models.Escuderia", b =>
-                {
-                    b.Navigation("pilotos");
                 });
 #pragma warning restore 612, 618
         }
