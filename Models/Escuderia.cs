@@ -14,5 +14,16 @@ namespace Formula_1.Models
         public string PaisDeOrigen {  get; set; }
 
         public string SponsorPrincipal { get; set; }
+
+        public List<Piloto> pilotos { get; set; }
+        public Escuderia() { }
+
+        public Escuderia( int puntajeAcumulado, string nombre, string paisDeOrigen, string sponsorPrincipal)
+        {
+            PuntajeAcumulado = puntajeAcumulado;
+            Nombre = nombre;
+            PaisDeOrigen = paisDeOrigen;
+            SponsorPrincipal = sponsorPrincipal;
+        }
     }
 }

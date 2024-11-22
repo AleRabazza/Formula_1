@@ -85,6 +85,9 @@ namespace Formula_1.Migrations
                     b.Property<DateOnly>("FechaNac")
                         .HasColumnType("date");
 
+                    b.Property<int>("IdEscuderia")
+                        .HasColumnType("int");
+
                     b.Property<string>("NombrePiloto")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,12 +99,9 @@ namespace Formula_1.Migrations
                     b.Property<int>("PuntajeAcumulado")
                         .HasColumnType("int");
 
-                    b.Property<int>("escuderiaIdEscuderia")
-                        .HasColumnType("int");
-
                     b.HasKey("NumeroPiloto");
 
-                    b.HasIndex("escuderiaIdEscuderia");
+                    b.HasIndex("IdEscuderia");
 
                     b.ToTable("Pilotos");
                 });
@@ -138,8 +138,8 @@ namespace Formula_1.Migrations
             modelBuilder.Entity("Formula_1.Models.Piloto", b =>
                 {
                     b.HasOne("Formula_1.Models.Escuderia", "escuderia")
-                        .WithMany()
-                        .HasForeignKey("escuderiaIdEscuderia")
+                        .WithMany("pilotos")
+                        .HasForeignKey("IdEscuderia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -163,6 +163,11 @@ namespace Formula_1.Migrations
                     b.Navigation("carrera");
 
                     b.Navigation("piloto");
+                });
+
+            modelBuilder.Entity("Formula_1.Models.Escuderia", b =>
+                {
+                    b.Navigation("pilotos");
                 });
 #pragma warning restore 612, 618
         }

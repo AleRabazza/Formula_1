@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Formula_1.Models.Escuderia
+
 @{
+    ViewBag.Title = "Eliminar Escudería";
 }
+
+<h2>Eliminar Escudería</h2>
+
+<p>¿Estás seguro que deseas eliminar esta escudería?</p>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Nombre</h5>
+        <p class="card-text"><strong>Puntaje Acumulado:</strong> @Model.PuntajeAcumulado</p>
+        <p class="card-text"><strong>País de Origen:</strong> @Model.PaisDeOrigen</p>
+        <p class="card-text"><strong>Sponsor Principal:</strong> @Model.SponsorPrincipal</p>
+    </div>
+</div>
+
+<form asp-action="EliminarConfirmed" method="post" class="mt-3">
+    <input type="hidden" id="IdEscuderia" name="IdEscuderia" value="@Model.IdEscuderia" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="@Url.Action("Listado", "ControladoraEscuderias")" class="btn btn-secondary">Cancelar</a>
+</form>
