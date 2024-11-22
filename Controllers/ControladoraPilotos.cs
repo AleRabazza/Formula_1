@@ -70,6 +70,7 @@ namespace Formula_1.Controllers
                 esc1 = ListaEsc.Find(esc => esc.IdEscuderia == Escuderia);
             }else
             {
+                ViewBag.Error = "Datos invalidos";
                 return View("Crear");
             }
 
