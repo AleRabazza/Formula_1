@@ -19,7 +19,7 @@ namespace Formula_1.Data
         {
             // Configuramos la relación "Uno a Muchos" desde Piloto a Escuderia
             modelBuilder.Entity<Piloto>()
-                .HasOne(p => p.escuderia)  // Un Piloto tiene una Escuderia
+                .HasOne(p => p.IdEscuderia)  // Un Piloto tiene una Escuderia
                 .WithMany(e => e.pilotos)  // Una Escuderia puede tener muchos Pilotos
                 .HasForeignKey(p => p.IdEscuderia);  // La clave foránea en Piloto que referencia a Escuderia
         }

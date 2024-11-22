@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Formula_1.Models
 {
@@ -13,8 +14,8 @@ namespace Formula_1.Models
         public DateOnly FechaNac {  get; set; }
 
         public string PaisDeOrigen {  get; set; }
-
-        public Escuderia escuderia { get; set; }
+        
+        public int IdEscuderia { get; set; }
 
         public int PuntajeAcumulado { get; set; }
 
