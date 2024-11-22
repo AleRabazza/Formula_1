@@ -6,19 +6,22 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Numero</th>
+            <th>Id</th>
+            <th>Numero auto</th>
             <th>Escuderia</th>
             <th>Nombre</th>
             <th>Fecha de Nacimiento</th>
             <th>Pais de Origen</th>
             <th>Puntaje</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (Piloto piloto in Model)
+        @foreach (Piloto piloto in ViewBag.Pilotos)
         {
             <tr>
                 <td>@piloto.NumeroPiloto</td>
+                <td>@piloto.NumeroAuto</td>
                 <td>@piloto.Escuderia.Nombre</td>
                 <td>@piloto.NombrePiloto</td>
                 <td>@piloto.FechaNac</td>

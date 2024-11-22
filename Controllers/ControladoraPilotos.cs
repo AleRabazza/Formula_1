@@ -19,8 +19,11 @@ namespace Formula_1.Controllers
         // GET: ControladoraPilotos
         public IActionResult Listado()
         {
-            List<Piloto> ListaPilotos = _context.Pilotos.ToList();
-            return View(ListaPilotos);
+            List<Piloto> ListaPilotos = _context.Pilotos
+                .Include(piloto => piloto.Escuderia)                
+                .ToList();
+            ViewBag.Pilotos = ListaPilotos;
+            return View();
         }
 
         // GET: ControladoraPilotos/Details/5
@@ -55,28 +58,36 @@ namespace Formula_1.Controllers
         [HttpPost]
         public IActionResult Crear(string nombre, int numero, DateOnly FechaNac, string PaisOrg, int Escuderia)
         {
+            List<Escuderia> escuderiaLista = _context.Escuderia.Where(esc => esc.CantidadDePilotos < 2).ToList();
+            ViewBag.Escuderias = escuderiaLista;
+
             if (string.IsNullOrEmpty(nombre))
             {
                 ViewBag.Error = "Datos invalidos";
+                Console.WriteLine("Nombre mal");
                 return View("Crear");
             }
 
             List<Escuderia> ListaEsc = _context.Escuderia.ToList();
-            Escuderia esc1;
 
             if ((ListaEsc.Find(esc => esc.IdEscuderia == Escuderia) == null))
             {
-                ListaEsc = _context.Escuderia.ToList();
-                esc1 = ListaEsc.Find(esc => esc.IdEscuderia == Escuderia);
-            }else
-            {
-                ViewBag.Error = "Datos invalidos";
+                Console.WriteLine("Mal escuderia");
                 return View("Crear");
+
             }
 
-            Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, esc1); 
+            Escuderia? esc1 = ListaEsc.Find(esc => esc.IdEscuderia == Escuderia);
+
+            Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, Escuderia, esc1); 
             _context.Pilotos.Add(piloto);
             _context.SaveChanges();
+            Console.WriteLine("Agreado");
+
+            List<Piloto> ListaPilotos = _context.Pilotos
+                .Include(piloto => piloto.Escuderia)
+                .ToList();
+            ViewBag.Pilotos = ListaPilotos;
 
             return View("Listado");
         }

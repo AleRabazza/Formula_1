@@ -22,6 +22,8 @@ namespace Formula_1.Data
                 .HasOne(p => p.Escuderia)  // Un Piloto tiene una Escuderia
                 .WithMany(e => e.pilotos)  // Una Escuderia puede tener muchos Pilotos
                 .HasForeignKey(p => p.EscuderiaId);  // La clave foránea en Piloto que referencia a Escuderia
+
+            
         }
 
 
