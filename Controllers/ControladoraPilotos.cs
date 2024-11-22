@@ -20,7 +20,7 @@ namespace Formula_1.Controllers
         public IActionResult Listado()
         {
             List<Piloto> ListaPilotos = _context.Pilotos
-                .Include(piloto => piloto.Escuderia)                
+                .Include(piloto => piloto.Escuderia)
                 .ToList();
             ViewBag.Pilotos = ListaPilotos;
             return View();
@@ -42,7 +42,7 @@ namespace Formula_1.Controllers
             }
 
             return View(pilotoDetalles);
-            
+
         }
 
         // GET: ControladoraPilotos/Create
@@ -50,7 +50,7 @@ namespace Formula_1.Controllers
         {
             List<Escuderia> escuderiaLista = _context.Escuderia.Where(esc => esc.CantidadDePilotos < 2).ToList();
             ViewBag.Escuderias = escuderiaLista;
-           
+
             return View();
         }
 
@@ -79,7 +79,7 @@ namespace Formula_1.Controllers
 
             Escuderia? esc1 = ListaEsc.Find(esc => esc.IdEscuderia == Escuderia);
 
-            Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, Escuderia, esc1); 
+            Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, Escuderia, esc1);
             _context.Pilotos.Add(piloto);
             _context.SaveChanges();
             Console.WriteLine("Agreado");
@@ -93,9 +93,22 @@ namespace Formula_1.Controllers
         }
 
         // GET: ControladoraPilotos/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Editar(int id)
         {
-            return View();
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            Piloto piloto = _context.Pilotos.Find(id);
+
+            if (piloto == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Piloto = piloto;
+            return View("editar");
         }
 
         // POST: ControladoraPilotos/Edit/5
@@ -113,25 +126,28 @@ namespace Formula_1.Controllers
             }
         }
 
-        // GET: ControladoraPilotos/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: ControladoraPilotos/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        
+        public ActionResult Eliminar(int id)
         {
-            try
+
+            if (id == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+
+            Piloto piloto = _context.Pilotos.Find(id);
+            if (piloto == null)
             {
-                return View();
+                return NotFound();
             }
+
+            _context.Pilotos.Remove(piloto);
+            _context.SaveChanges();
+            return RedirectToAction("Listado");
+
         }
     }
+
 }
+

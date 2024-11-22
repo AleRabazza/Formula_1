@@ -1,5 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿﻿
+<div class="container mt-5">
+    <h1 class="mb-4">Editar Semestre</h1>
+
+    <p class="text-danger">@ViewBag.Error</p>
+
+    <form action="/ControladoraPilotos/Crear" method="post">
+        <div class="form-control">
+            <label for="Nombre">Nombre</label>
+            <input type="text" name="nombre" value="@ViewBag.Pilot.Nombre"/>
+        </div>
+        <div class="form-control">
+            <label for="Numero">Numero del auto</label>
+            <input type="number" name="numero" value="@ViewBag.Piloto.Numero">
+        </div>
+        <div class="form-control">
+            <label for="FechaNac">Fecha de Nacimiento</label>
+            <input type="date" name="FechaNac" value="@ViewBag.Piloto.FechaNac">
+        </div>
+        <div class="form-control">
+            <label for="PaisOrg">Pais de Origen</label>
+            <input type="text" name="PaisOrg" value="@ViewBag.Piloto.PaisOrg">
+        </div>
+        <div class="form-control">
+            <label for="Escuderia">Selecione su Escuderia</label>
+            <select name="Escuderia" >
+                <option value="@ViewBag.Piloto.Escuderia" selected ="selected"> </option>
+                @foreach (Escuderia escuderia in ViewBag.Escuderias)
+                {
+                    if (escuderia.IdEscuderia != ViewBag.Piloto.Escuderia.IdEscuderia){
+                        <option value="@escuderia.IdEscuderia">@escuderia.Nombre</option>
+                    }
+                }
+            </select>
+        </div>
+    </form>
+</div>
