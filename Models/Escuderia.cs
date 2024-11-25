@@ -33,7 +33,7 @@ namespace Formula_1.Models
         }
         public bool Validacion()
         {
-            if(string.IsNullOrWhiteSpace(PaisDeOrigen) || string.IsNullOrEmpty(Nombre) || string.IsNullOrEmpty(SponsorPrincipal) || int.IsNegative(PuntajeAcumulado)){
+            if(string.IsNullOrEmpty(PaisDeOrigen) || string.IsNullOrEmpty(Nombre) || string.IsNullOrEmpty(SponsorPrincipal)){
                 return false;
             }
            return true;

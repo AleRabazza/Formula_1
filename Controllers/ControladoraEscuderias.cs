@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Formula_1.Controllers
 {
@@ -72,27 +73,36 @@ namespace Formula_1.Controllers
 
         public IActionResult Editar(int id)
         {
-            var escuderia = _context.Escuderia.Find(id);
+            Escuderia escuderia = _context.Escuderia.Find(id);
             if (escuderia == null)
             {
                 return NotFound();
             }
-            return View(escuderia);
+
+            Escuderia escuderia1 = _context.Escuderia.Find(id);
+            ViewBag.Escuderia = escuderia1;
+
+            ViewBag.Nombre = escuderia1.Nombre;
+            ViewBag.PaisDeOrigen = escuderia1.PaisDeOrigen;
+            ViewBag.SponsorPrincipal = escuderia1.SponsorPrincipal;
+
+            return View(escuderia1);
         }
 
         [HttpPost]
-        public IActionResult Editar(int id, string nombre, string paisOrigen, string sponsorPrincipal, int puntaje) 
+        public IActionResult Editar(int id, string nombre, string paisDeOrigen, string sponsorPrincipal, int puntaje) 
         {
-            Escuderia escuderia = _context.Escuderia.Find(id);
+            Escuderia? escuderia = _context.Escuderia.Find(id);
             if (escuderia == null) {
 
-                return NotFound();
-             }
+                return View("Listado");
 
+             }
+          
             escuderia.Nombre=nombre;
-            escuderia.PaisDeOrigen=paisOrigen;
+            escuderia.PaisDeOrigen=paisDeOrigen;
             escuderia.SponsorPrincipal=sponsorPrincipal;
-            escuderia.PuntajeAcumulado= puntaje;
+        
 
             if (escuderia.Validacion())
             {
@@ -100,6 +110,12 @@ namespace Formula_1.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Listado");
             }
+            ViewBag.Nombre = nombre;
+            ViewBag.PaisOrigen = paisDeOrigen;
+            ViewBag.SponsorPrincipal=sponsorPrincipal;
+           
+
+
             return View("Editar");
         }
 
@@ -110,7 +126,7 @@ namespace Formula_1.Controllers
             {
                 return NotFound();
             }
-            Escuderia escuderia = _context.Escuderia.Find(id);
+            Escuderia? escuderia = _context.Escuderia.Find(id);
             if (escuderia == null)
             {
                 return NotFound();
