@@ -59,30 +59,28 @@ namespace Formula_1.Controllers
         public IActionResult Crear(string nombre, int numero, DateOnly FechaNac, string PaisOrg, int Escuderia)
         {
             List<Escuderia> escuderiaLista = _context.Escuderia.Where(esc => esc.CantidadDePilotos < 2).ToList();
-            ViewBag.Escuderias = escuderiaLista;
+            ViewBag.Escuderias = escuderiaLista;           
 
-            if (string.IsNullOrEmpty(nombre))
-            {
-                ViewBag.Error = "Datos invalidos";
-                Console.WriteLine("Nombre mal");
-                return View("Crear");
-            }
-
-            List<Escuderia> ListaEsc = _context.Escuderia.ToList();
-
-            if ((ListaEsc.Find(esc => esc.IdEscuderia == Escuderia) == null))
-            {
-                Console.WriteLine("Mal escuderia");
-                return View("Crear");
-
-            }
+            List<Escuderia> ListaEsc = _context.Escuderia.ToList();           
 
             Escuderia? esc1 = ListaEsc.Find(esc => esc.IdEscuderia == Escuderia);
 
             Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, Escuderia, esc1);
+            if (!piloto.Validacion())
+            {
+                ViewBag.Nombre = nombre;
+                ViewBag.Numero = numero;
+                ViewBag.FechaNac = FechaNac;
+                ViewBag.PaisOrg = PaisOrg;
+                ViewBag.Error = "Ingrese todos los datos";
+                return View("Crear");
+            }
+            
             _context.Pilotos.Add(piloto);
             _context.SaveChanges();
             Console.WriteLine("Agreado");
+
+
 
             List<Piloto> ListaPilotos = _context.Pilotos
                 .Include(piloto => piloto.Escuderia)
@@ -93,7 +91,7 @@ namespace Formula_1.Controllers
         }
 
         // GET: ControladoraPilotos/Edit/5
-        public IActionResult Editar(int id)
+        public ActionResult Editar(int id)
         {
             if (id == 0)
             {
@@ -108,22 +106,15 @@ namespace Formula_1.Controllers
             }
 
             ViewBag.Piloto = piloto;
-            return View("editar");
+            return View("Editar");
         }
 
         // POST: ControladoraPilotos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, string nombre, int numero, DateOnly FechaNac, string PaisOrg, int Escuderia)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
 

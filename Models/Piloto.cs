@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 
 namespace Formula_1.Models
 {
@@ -32,5 +33,19 @@ namespace Formula_1.Models
             this.Escuderia = escuderia;
             PuntajeAcumulado = 0;
         }
+
+        public bool Validacion()
+        {
+            if (string.IsNullOrEmpty(NombrePiloto) || string.IsNullOrEmpty(PaisDeOrigen))
+            {
+                return false;
+            }
+            int prueba;
+
+            return true;
+                 
+            }
+
+        }
     }
-}
+
