@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<div class="text-center container-lg">
+    <h1>Lisatdo de Carreras</h1>
+</<div>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <td>IdCarrera</td>
+                <td>Nombre</td>
+                <td>Ciudad</td>
+                <td>Fecha Inicio</td>
+                <td>Acciones</td>
+                <td>Resultados</td>
+            </tr>
+        </thead
+        <tbody>
+            @foreach(Carrera carrera in ViewBag.Carreras)
+            {
+                <tr>
+                    <td>@carrera.IdCarrera</td>
+                    <td>@carrera.Nombre</td>
+                    <td>@carrera.Ciudad</td>
+                    <td>@carrera.fecha</td>
+                    <td>
+                        <a href="@Url.Action("Detalles", "ControladoraCarreras", new { id = carrera.IdCarrera })" class="btn btn-info btn-sm">Detalles</a>
+                        <a href="/ControladoraCarreras/Editar/@carrera.IdCarrera" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="/ControladoraCarreras/Eliminar/@carrera.IdCarrera" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                    <td><a href="/ControladoraCarreras/AgregarResultado/@carrera.IdCarrera" class="btn btn-danger btn-sm">Ingresar</a></td>
+                </tr>
+            }
+        </tbody>
+    </table> 
+</div>
+

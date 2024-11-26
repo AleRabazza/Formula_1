@@ -9,7 +9,11 @@ namespace Formula_1.Models
 
         public int IdCarrera { get; set; }
 
+        public Carrera Carrera { get; set; }
+
         public int IdPiloto { get; set; }
+
+        public Piloto Piloto { get; set; }
 
         public int PosicionSalida { get; set; }
 

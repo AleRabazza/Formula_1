@@ -23,9 +23,25 @@ namespace Formula_1.Data
                 .WithMany(e => e.pilotos)  // Una Escuderia puede tener muchos Pilotos
                 .HasForeignKey(p => p.EscuderiaId);  // La clave foránea en Piloto que referencia a Escuderia
 
-            
-        }
+            modelBuilder.Entity<Resultado>()
+                .HasOne(r => r.Carrera)
+                .WithMany(c => c.Resultados)
+                .HasForeignKey(r => r.IdCarrera);
 
+            modelBuilder.Entity<Resultado>()
+                .HasOne(r => r.Piloto)
+                .WithMany(p => p.Resultados)
+                .HasForeignKey(r => r.IdPiloto);
 
-    }
+            modelBuilder.Entity<Carrera>()
+                .HasMany(c => c.Resultados)
+                .WithOne(r => r.Carrera)
+                .HasForeignKey(c => c.IdCarrera);
+
+            modelBuilder.Entity<Piloto>()
+                .HasMany(p => p.Resultados)
+                .WithOne(r => r.Piloto)
+                .HasForeignKey(p =>p.IdCarrera);
+        }            
+     }
 }

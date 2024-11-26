@@ -19,6 +19,8 @@ namespace Formula_1.Models
         public int EscuderiaId {  get; set; }
         public Escuderia Escuderia { get; set; }
 
+        public List<Resultado> Resultados { get; set; }
+
         public Piloto()
         {
         }
@@ -32,6 +34,7 @@ namespace Formula_1.Models
             EscuderiaId = escuderiaId;
             this.Escuderia = escuderia;
             PuntajeAcumulado = 0;
+            Resultados = new List<Resultado>();
         }
 
         public bool Validacion()

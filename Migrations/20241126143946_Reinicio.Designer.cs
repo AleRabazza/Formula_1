@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Formula_1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241122123246_Reinicio")]
+    [Migration("20241126143946_Reinicio")]
     partial class Reinicio
     {
         /// <inheritdoc />
@@ -137,6 +137,8 @@ namespace Formula_1.Migrations
 
                     b.HasKey("IdResultado");
 
+                    b.HasIndex("IdCarrera");
+
                     b.ToTable("Resultados");
                 });
 
@@ -151,9 +153,38 @@ namespace Formula_1.Migrations
                     b.Navigation("Escuderia");
                 });
 
+            modelBuilder.Entity("Formula_1.Models.Resultado", b =>
+                {
+                    b.HasOne("Formula_1.Models.Carrera", "Carrera")
+                        .WithMany("Resultados")
+                        .HasForeignKey("IdCarrera")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Formula_1.Models.Piloto", "Piloto")
+                        .WithMany("Resultados")
+                        .HasForeignKey("IdCarrera")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carrera");
+
+                    b.Navigation("Piloto");
+                });
+
+            modelBuilder.Entity("Formula_1.Models.Carrera", b =>
+                {
+                    b.Navigation("Resultados");
+                });
+
             modelBuilder.Entity("Formula_1.Models.Escuderia", b =>
                 {
                     b.Navigation("pilotos");
+                });
+
+            modelBuilder.Entity("Formula_1.Models.Piloto", b =>
+                {
+                    b.Navigation("Resultados");
                 });
 #pragma warning restore 612, 618
         }

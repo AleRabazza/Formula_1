@@ -1,13 +1,22 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Formula_1.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Formula_1.Controllers
 {
     public class ControladoraCarreras : Controller
     {
+        private readonly AppDbContext _context;
+
+        public ControladoraCarreras(AppDbContext context)
+        {
+            _context = context;
+        }
         // GET: ControladoraCarreras
         public ActionResult Listado()
         {
+
             return View();
         }
 
@@ -78,6 +87,16 @@ namespace Formula_1.Controllers
             {
                 return View();
             }
+        }
+
+        public IActionResult AgregarResultado(int id)
+        {
+            ViewBag.Pilotos = _context.Pilotos
+                                        .Include()
+                                        .ToList();
+            ViewBag.Carrera = _context.Carreras.Find(id);
+
+            return View();
         }
     }
 }

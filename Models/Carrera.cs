@@ -12,5 +12,17 @@ namespace Formula_1.Models
         public string Ciudad  { get; set; }
 
         public DateOnly fecha { get; set; }
+
+        public List<Resultado> Resultados { get; set; }
+
+        public Carrera() { }
+
+        public Carrera(string nombre, string ciudad, DateOnly fecha)
+        {
+            Nombre = nombre;
+            Ciudad = ciudad;
+            this.fecha = fecha;
+            Resultados = new List<Resultado>();
+        }
     }
 }

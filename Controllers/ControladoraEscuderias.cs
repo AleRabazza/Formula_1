@@ -22,7 +22,7 @@ namespace Formula_1.Controllers
         {
             List<Escuderia> listaEscuderias = _context.Escuderia.ToList();
             ViewBag.Escuderias = listaEscuderias;
-            return View();
+            return View("Listado");
         }
 
 

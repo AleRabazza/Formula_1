@@ -44,22 +44,6 @@ namespace Formula_1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Resultados",
-                columns: table => new
-                {
-                    IdResultado = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdCarrera = table.Column<int>(type: "int", nullable: false),
-                    IdPiloto = table.Column<int>(type: "int", nullable: false),
-                    PosicionSalida = table.Column<int>(type: "int", nullable: false),
-                    PosicionLlegada = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Resultados", x => x.IdResultado);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Pilotos",
                 columns: table => new
                 {
@@ -83,23 +67,56 @@ namespace Formula_1.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Resultados",
+                columns: table => new
+                {
+                    IdResultado = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdCarrera = table.Column<int>(type: "int", nullable: false),
+                    IdPiloto = table.Column<int>(type: "int", nullable: false),
+                    PosicionSalida = table.Column<int>(type: "int", nullable: false),
+                    PosicionLlegada = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resultados", x => x.IdResultado);
+                    table.ForeignKey(
+                        name: "FK_Resultados_Carreras_IdCarrera",
+                        column: x => x.IdCarrera,
+                        principalTable: "Carreras",
+                        principalColumn: "IdCarrera",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Resultados_Pilotos_IdCarrera",
+                        column: x => x.IdCarrera,
+                        principalTable: "Pilotos",
+                        principalColumn: "NumeroPiloto",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Pilotos_EscuderiaId",
                 table: "Pilotos",
                 column: "EscuderiaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resultados_IdCarrera",
+                table: "Resultados",
+                column: "IdCarrera");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Resultados");
+
+            migrationBuilder.DropTable(
                 name: "Carreras");
 
             migrationBuilder.DropTable(
                 name: "Pilotos");
-
-            migrationBuilder.DropTable(
-                name: "Resultados");
 
             migrationBuilder.DropTable(
                 name: "Escuderia");
