@@ -58,67 +58,125 @@ namespace Formula_1.Controllers
         [HttpPost]
         public IActionResult Crear(string nombre, int numero, DateOnly FechaNac, string PaisOrg, int Escuderia)
         {
+            
             List<Escuderia> escuderiaLista = _context.Escuderia.Where(esc => esc.CantidadDePilotos < 2).ToList();
-            ViewBag.Escuderias = escuderiaLista;           
+            ViewBag.Escuderias = escuderiaLista;
 
-            List<Escuderia> ListaEsc = _context.Escuderia.ToList();           
+            Escuderia? esc1 = _context.Escuderia.FirstOrDefault(esc => esc.IdEscuderia == Escuderia);
 
-            Escuderia? esc1 = ListaEsc.Find(esc => esc.IdEscuderia == Escuderia);
+            if (esc1 == null)
+            {
+                ViewBag.Error = "La escudería seleccionada no existe.";
+                return View("Crear");
+            }
 
             Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, Escuderia, esc1);
+
             if (!piloto.Validacion())
             {
                 ViewBag.Nombre = nombre;
                 ViewBag.Numero = numero;
                 ViewBag.FechaNac = FechaNac;
                 ViewBag.PaisOrg = PaisOrg;
-                ViewBag.Error = "Ingrese todos los datos";
+                ViewBag.Error = "Ingrese todos los datos correctamente.";
                 return View("Crear");
             }
+
             
             _context.Pilotos.Add(piloto);
+            esc1.CantidadDePilotos++;
             _context.SaveChanges();
-            Console.WriteLine("Agreado");
 
+            Console.WriteLine("Piloto agregado");
 
-
+            
             List<Piloto> ListaPilotos = _context.Pilotos
-                .Include(piloto => piloto.Escuderia)
+                .Include(p => p.Escuderia)
                 .ToList();
             ViewBag.Pilotos = ListaPilotos;
 
             return View("Listado");
         }
 
-        // GET: ControladoraPilotos/Edit/5
-        public ActionResult Editar(int id)
-        {
-            if (id == 0)
-            {
-                return NotFound();
-            }
 
-            Piloto piloto = _context.Pilotos.Find(id);
+        // GET: ControladoraPilotos/Edit/5
+        public IActionResult Editar(int id)
+        {
+            Piloto? piloto = _context.Pilotos
+                .Include(p => p.Escuderia) 
+                .FirstOrDefault(p => p.NumeroPiloto == id);
 
             if (piloto == null)
             {
                 return NotFound();
             }
 
+            
             ViewBag.Piloto = piloto;
+            ViewBag.Escuderias = _context.Escuderia
+                .Where(e => e.CantidadDePilotos < 2 || e.IdEscuderia == piloto.Escuderia.IdEscuderia) 
+                .ToList();
+
+            ViewBag.Nombre = piloto.NombrePiloto;
+            ViewBag.Numero = piloto.NumeroAuto;
+            ViewBag.FechaNac = piloto.FechaNac;
+            ViewBag.PaisOrg = piloto.PaisDeOrigen;
+            ViewBag.Escuderia = piloto.Escuderia.IdEscuderia;
+
             return View("Editar");
         }
 
-        // POST: ControladoraPilotos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, string nombre, int numero, DateOnly FechaNac, string PaisOrg, int Escuderia)
+        public IActionResult Editar(int id, string nombre, int numero, DateOnly FechaNac, string PaisOrg, int Escuderia)
         {
-            return View();
+            Piloto? piloto = _context.Pilotos
+                .Include(p => p.Escuderia)
+                .FirstOrDefault(p => p.NumeroPiloto == id);
+
+            if (piloto == null)
+            {
+                return NotFound();
+            }
+
+            Escuderia? nuevaEscuderia = _context.Escuderia
+                .FirstOrDefault(e => e.IdEscuderia == Escuderia);
+
+            
+            piloto.NombrePiloto = nombre;
+            piloto.NumeroAuto = numero;
+            piloto.FechaNac = FechaNac;
+            piloto.PaisDeOrigen = PaisOrg;
+
+            
+            if (piloto.Escuderia.IdEscuderia != Escuderia)
+            {
+                piloto.Escuderia.CantidadDePilotos--; 
+                nuevaEscuderia.CantidadDePilotos++; 
+                piloto.Escuderia = nuevaEscuderia; 
+            }
+
+            if (piloto.Validacion())
+            {
+                _context.Pilotos.Update(piloto);
+                _context.SaveChanges();
+                return RedirectToAction("Listado");
+            }
+
+            // En caso de error, regresar los datos a la vista
+            ViewBag.Nombre = nombre;
+            ViewBag.Numero = numero;
+            ViewBag.FechaNac = FechaNac;
+            ViewBag.PaisOrg = PaisOrg;
+            ViewBag.Escuderia = Escuderia;
+            ViewBag.Error = "Por favor, complete todos los datos correctamente.";
+
+            return View("Editar");
         }
 
 
-        
+
+
         public ActionResult Eliminar(int id)
         {
 

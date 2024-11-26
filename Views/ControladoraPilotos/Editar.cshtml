@@ -1,37 +1,47 @@
-﻿﻿
-<div class="container mt-5">
-    <h1 class="mb-4">Editar Semestre</h1>
+﻿<div class="container mt-5">
+    <h1 class="mb-4">Editar Piloto</h1>
 
-    <p class="text-danger">@ViewBag.Error</p>
 
-    <form action="/ControladoraPilotos/Crear" method="post">
-        <div class="form-control">
-            <label for="Nombre">Nombre</label>
-            <input type="text" name="nombre" value="@ViewBag.Pilot.Nombre"/>
+    <form action="/ControladoraPilotos/Editar" method="post" class="form-group">
+     
+        <input type="hidden" name="id" value="@ViewBag.Piloto.NumeroPiloto" />
+
+       
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <input type="text" name="nombre" class="form-control" value="@ViewBag.Piloto.NombrePiloto" required />
         </div>
-        <div class="form-control">
-            <label for="Numero">Numero del auto</label>
-            <input type="number" name="numero" value="@ViewBag.Piloto.Numero">
+        <div class="mb-3">
+            <label for="Numero" class="form-label">Número del auto</label>
+            <input type="number" name="numero" class="form-control" value="@ViewBag.Piloto.NumeroAuto" required />
         </div>
-        <div class="form-control">
-            <label for="FechaNac">Fecha de Nacimiento</label>
-            <input type="date" name="FechaNac" value="@ViewBag.Piloto.FechaNac">
+        <div class="mb-3">
+            <label for="FechaNac" class="form-label">Fecha de Nacimiento</label>
+            <input type="date"  name="FechaNac" class="form-control" value="@ViewBag.Piloto.FechaNac.ToString("yyyy-MM-dd")" required />
         </div>
-        <div class="form-control">
-            <label for="PaisOrg">Pais de Origen</label>
-            <input type="text" name="PaisOrg" value="@ViewBag.Piloto.PaisOrg">
+        <div class="mb-3">
+            <label for="PaisOrg" class="form-label">País de Origen</label>
+            <input type="text" name="PaisOrg" class="form-control" value="@ViewBag.Piloto.PaisDeOrigen" required />
         </div>
-        <div class="form-control">
-            <label for="Escuderia">Selecione su Escuderia</label>
-            <select name="Escuderia" >
-                <option value="@ViewBag.Piloto.Escuderia" selected ="selected"> </option>
+        <div class="mb-3">
+            <label for="Escuderia" class="form-label">Seleccione su Escudería</label>
+            <select id="Escuderia" name="Escuderia" class="form-select" required>
+                
+                <option value="@ViewBag.Piloto.Escuderia.IdEscuderia" selected>
+                    @ViewBag.Piloto.Escuderia.Nombre
+                </option>
+               
                 @foreach (Escuderia escuderia in ViewBag.Escuderias)
                 {
-                    if (escuderia.IdEscuderia != ViewBag.Piloto.Escuderia.IdEscuderia){
                         <option value="@escuderia.IdEscuderia">@escuderia.Nombre</option>
-                    }
                 }
             </select>
+        </div>
+
+        
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="@Url.Action("Listado", "ControladoraPilotos")" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>
 </div>
