@@ -1,4 +1,5 @@
 ﻿using Formula_1.Data;
+using Formula_1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -91,9 +92,24 @@ namespace Formula_1.Controllers
 
         public IActionResult AgregarResultado(int id)
         {
-            ViewBag.Pilotos = _context.Pilotos
-                                        .Include()
+            List<Piloto> pilotos = _context.Pilotos
+                                        .Include(p => p.Resultados)
+                                        .Include(p => p.Escuderia)
                                         .ToList();
+
+            List<Resultado> resultados = _context.Resultados
+                                                .Include(r => r.Carrera)
+                                                .Where(r => r.IdCarrera == id)
+                                                .Include(r => r.Piloto)
+                                                .ToList();
+
+            foreach (Resultado resultado in resultados)
+            {
+                pilotos.Remove(resultado.Piloto);
+            }
+
+            ViewBag.Resultados = resultados;
+            ViewBag.Pilotos = pilotos;
             ViewBag.Carrera = _context.Carreras.Find(id);
 
             return View();

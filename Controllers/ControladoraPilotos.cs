@@ -86,9 +86,6 @@ namespace Formula_1.Controllers
             _context.Pilotos.Add(piloto);
             esc1.CantidadDePilotos++;
             _context.SaveChanges();
-
-            Console.WriteLine("Piloto agregado");
-
             
             List<Piloto> ListaPilotos = _context.Pilotos
                 .Include(p => p.Escuderia)
