@@ -43,12 +43,10 @@ namespace Formula_1.Models
             {
                 return false;
             }
-            int prueba;
 
             return true;
                  
             }
-
         }
     }
 

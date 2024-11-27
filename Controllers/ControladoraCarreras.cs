@@ -14,105 +14,119 @@ namespace Formula_1.Controllers
         {
             _context = context;
         }
-        // GET: ControladoraCarreras
+
+        // GET: ControladoraCarreras/Listado
         public ActionResult Listado()
         {
-
-            return View();
+            List<Carrera> listaCarreras = _context.Carreras.ToList();
+            ViewBag.Carreras = listaCarreras;
+            return View("Listado");
         }
 
-        // GET: ControladoraCarreras/Details/5
-        public ActionResult Details(int id)
+        // GET: ControladoraCarreras/Detalles/5
+        public ActionResult Detalles(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Carrera? carreraDetalles = _context.Carreras
+                .FirstOrDefault(c => c.IdCarrera == id);
+
+            if (carreraDetalles == null)
+            {
+                return NotFound();
+            }
+
+            return View(carreraDetalles);
+        }
+
+        // GET: ControladoraCarreras/Crear
+        public ActionResult Crear()
         {
             return View();
         }
 
-        // GET: ControladoraCarreras/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ControladoraCarreras/Create
+        // POST: ControladoraCarreras/Crear
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Crear(string nombre, string ciudad, DateOnly fechaDeInicio)
         {
-            try
+            Carrera nuevaCarrera = new Carrera
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+                Nombre = nombre,
+                Ciudad = ciudad,
+                fecha = fechaDeInicio
+            };
+
+            if (nuevaCarrera.Validacion())
             {
-                return View();
+                _context.Carreras.Add(nuevaCarrera);
+                _context.SaveChanges();
+                return RedirectToAction("Listado");
             }
+
+            ViewBag.Error = "Los datos ingresados no son válidos.";
+            ViewBag.Nombre = nombre;
+            ViewBag.Ciudad = ciudad;
+            ViewBag.FechaDeInicio = fechaDeInicio;
+
+            return View("Crear");
         }
 
-        // GET: ControladoraCarreras/Edit/5
-        public ActionResult Edit(int id)
+        // GET: ControladoraCarreras/Editar/5
+        public IActionResult Editar(int id)
         {
-            return View();
+            Carrera? carrera = _context.Carreras.Find(id);
+
+            if (carrera == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Carrera = carrera;
+            return View(carrera);
         }
 
-        // POST: ControladoraCarreras/Edit/5
+        // POST: ControladoraCarreras/Editar/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Editar(int id, string nombre, string ciudad, DateOnly fechaDeInicio)
         {
-            try
+            Carrera? carrera = _context.Carreras.Find(id);
+
+            if (carrera == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+           
+            carrera.Nombre = nombre;
+            carrera.Ciudad = ciudad;
+            carrera.fecha = fechaDeInicio;
+
+            if (carrera.Validacion())
             {
-                return View();
+                _context.Carreras.Update(carrera);
+                _context.SaveChanges();
+                return RedirectToAction("Listado");
             }
+
+            ViewBag.Error = "Los datos ingresados no son válidos.";
+            return View("Editar");
         }
 
-        // GET: ControladoraCarreras/Delete/5
-        public ActionResult Delete(int id)
+        // POST: ControladoraCarreras/Eliminar/5
+        public ActionResult Eliminar(int id)
         {
-            return View();
-        }
+            Carrera? carrera = _context.Carreras.Find(id);
 
-        // POST: ControladoraCarreras/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            if (carrera == null)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public IActionResult AgregarResultado(int id)
-        {
-            List<Piloto> pilotos = _context.Pilotos
-                                        .Include(p => p.Resultados)
-                                        .Include(p => p.Escuderia)
-                                        .ToList();
-
-            List<Resultado> resultados = _context.Resultados
-                                                .Include(r => r.Carrera)
-                                                .Where(r => r.IdCarrera == id)
-                                                .Include(r => r.Piloto)
-                                                .ToList();
-
-            foreach (Resultado resultado in resultados)
-            {
-                pilotos.Remove(resultado.Piloto);
+                return NotFound();
             }
 
-            ViewBag.Resultados = resultados;
-            ViewBag.Pilotos = pilotos;
-            ViewBag.Carrera = _context.Carreras.Find(id);
-
-            return View();
+            _context.Carreras.Remove(carrera);
+            _context.SaveChanges();
+            return RedirectToAction("Listado");
         }
     }
 }
