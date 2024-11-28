@@ -4,14 +4,14 @@
 
 <p class="text-warning">@ViewBag.Error</p>
 
-<form asp-action="Crear" method="post" class="form-group">
-    <input type="hidden" name="id" value="@ViewBag.Id" />
+<form asp-action="GuardarResultado" method="post" class="form-group">
+    <input type="hidden" name="IdCarrera" value="@ViewBag.Carrera.IdCarrera/>
     <div class="form-control">
         <label for="Piloto">Selecione el piloto</label>
         <select name="Piloto">
             @foreach (Piloto piloto in ViewBag.Pilotos)
             {
-                <option value="@piloto.NombrePiloto">@piloto.NombrePiloto</option>
+                <option value="@piloto.NumeroPiloto">@piloto.NombrePiloto</option>
             }
         </select>
     </div>
@@ -36,7 +36,7 @@
         </select>
     </div>
 
-    <button type="submit" class="btn btn-success">Guardar</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="@Url.Action("Listado", "ControladoraCarreras")" class="btn btn-secondary">Cancelar</a>
 
 </form>

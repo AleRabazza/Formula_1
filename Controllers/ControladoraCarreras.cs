@@ -92,7 +92,7 @@ namespace Formula_1.Controllers
 
         // POST: ControladoraCarreras/Editar/5
         [HttpPost]
-        public IActionResult Editar(int id, string nombre, string ciudad, DateOnly fechaDeInicio)
+        public ActionResult Editar(int id, string nombre, string ciudad, DateOnly fechaDeInicio)
         {
             Carrera? carrera = _context.Carreras.Find(id);
 
@@ -131,7 +131,7 @@ namespace Formula_1.Controllers
             return RedirectToAction("Listado");
         }
 
-        public IActionResult IngresoDeResultado(int id, int? Piloto, int? PosicionSalida, int? PosicionLlegada)
+        public IActionResult IngresoDeResultado(int id)
         {
             // Obtener lista de pilotos con sus escuderías y resultados
             List<Piloto> pilotos = _context.Pilotos
@@ -146,32 +146,7 @@ namespace Formula_1.Controllers
                                                  .Where(r => r.IdCarrera == id)
                                                  .ToList();
 
-            // Validar si se están ingresando datos de piloto y posiciones
-            if (Piloto.HasValue && PosicionSalida.HasValue && PosicionLlegada.HasValue)
-            {
-                Piloto? pilotoSeleccionado = pilotos.FirstOrDefault(p => p.NumeroPiloto == Piloto.Value);
-
-                if (pilotoSeleccionado != null)
-                {
-                    // Crear nuevo resultado
-                    Resultado nuevoResultado = new Resultado
-                    {
-                        IdCarrera = id,
-                        Piloto = pilotoSeleccionado,
-                        PosicionSalida = PosicionSalida.Value,
-                        PosicionLlegada = PosicionLlegada.Value
-                    };
-
-                    // Guardar el resultado en la base de datos
-                    _context.Resultados.Add(nuevoResultado);
-                    Console.WriteLine("Guardado");
-                    _context.SaveChanges();
-
-                    // Asignar puntos al piloto y a su escudería
-                    AsignarPuntos(pilotoSeleccionado, PosicionLlegada.Value);
-                }
-            }
-
+            
             // Remover pilotos ya asignados
             foreach (Resultado resultado in resultados)
             {
@@ -179,8 +154,23 @@ namespace Formula_1.Controllers
             }
 
             // Obtener posiciones disponibles
-            List<int> PosicionesSalida = Enumerable.Range(1, 20).Except(resultados.Select(r => r.PosicionSalida)).ToList();
-            List<int> PosicionesLlegada = Enumerable.Range(1, 20).Except(resultados.Select(r => r.PosicionLlegada)).ToList();
+            List<int> PosicionesSalida = new List<int>();
+            List<int> PosicionesLlegada = new List<int>();
+
+            for (int i = 1; i <= 20; i++)
+            {
+                PosicionesSalida.Add(i);
+                PosicionesLlegada.Add(i);
+            }
+
+            foreach (Resultado resultado in resultados)
+            {
+                PosicionesSalida.Remove(resultado.PosicionSalida);
+                PosicionesLlegada.Remove(resultado.PosicionLlegada);
+            }
+
+            ViewBag.PosicionesSalida = PosicionesSalida;
+            ViewBag.PosicionesLlegada = PosicionesLlegada;
 
             // Pasar datos a la vista
             ViewBag.Resultados = resultados;
@@ -190,6 +180,33 @@ namespace Formula_1.Controllers
             ViewBag.PosicionesLlegada = PosicionesLlegada;
 
             return View("IngresoDeResultado");
+        }
+
+        [HttpPost]
+        public ActionResult GuardarResultado(int IdCarrera, int Piloto, int PosicionLlegada, int PosicionSalida)
+        {
+           if (_context.Carreras.Find(IdCarrera) == null)
+            {
+                ViewBag.Error = "Carrera no encontrada";
+                return View("IngresoDeResultado");
+            }
+
+            // Crear nuevo resultado
+            Resultado nuevoResultado = new Resultado
+            (
+                IdCarrera,
+                Piloto,
+                PosicionSalida,
+                PosicionLlegada
+            );
+
+            // Guardar el resultado en la base de datos
+            _context.Resultados.Add(nuevoResultado);
+            _context.SaveChanges();
+
+            // Asignar puntos al piloto y a su escudería
+            AsignarPuntos(_context.Pilotos.Find(Piloto), PosicionLlegada);
+            return View("IngresoDeResultado", IdCarrera);
         }
 
         // Método para asignar puntos al piloto y su escudería
