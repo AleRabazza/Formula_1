@@ -164,6 +164,7 @@ namespace Formula_1.Controllers
 
                     // Guardar el resultado en la base de datos
                     _context.Resultados.Add(nuevoResultado);
+                    Console.WriteLine("Guardado");
                     _context.SaveChanges();
 
                     // Asignar puntos al piloto y a su escudería
@@ -188,7 +189,7 @@ namespace Formula_1.Controllers
             ViewBag.PosicionesSalida = PosicionesSalida;
             ViewBag.PosicionesLlegada = PosicionesLlegada;
 
-            return View("Listado");
+            return View("IngresoDeResultado");
         }
 
         // Método para asignar puntos al piloto y su escudería
