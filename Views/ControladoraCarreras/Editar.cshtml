@@ -1,9 +1,32 @@
-﻿<div class="text-center mb-3">
-	<h1>Bienvenido a la centra de Estadisiticas</h1>
+﻿@model Formula_1.Models.Carrera
 
-	<h4>Todos sobre la Formula 1 al alcance de tu mano</h4>
-</div>
+@{
+    ViewBag.Title = "Editar Carrera";
+}
 
-<div>
+<h2>@ViewBag.Title</h2>
 
-</div>
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<form asp-action="Editar" method="post">
+    <input type="hidden" asp-for="IdCarrera" />
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" value="@ViewBag.Carrera.Nombre" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Ciudad" class="form-label"></label>
+        <input asp-for="Ciudad" class="form-control" value="@ViewBag.Carrera.Ciudad" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="fecha" class="form-label"></label>
+        <input asp-for="fecha" class="form-control" type="date" value="@ViewBag.Carrera.fecha.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="@Url.Action("Listado", "ControladoraCarreras")" class="btn btn-secondary">Cancelar</a>
+</form>

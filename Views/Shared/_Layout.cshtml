@@ -7,10 +7,79 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Formula_1.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #1a1a1d;
+            color: white;
+        }
+
+        .navbar {
+            border-bottom: 3px solid #e10600; /* Rojo vibrante estilo F1 */
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #e10600 !important;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-size: 1.1rem;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: #e10600 !important;
+            }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%281,1,1,0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        footer {
+            background-color: #1a1a1d;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+            footer a {
+                color: #e10600;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        main {
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .pb-3 {
+            padding-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Formula_1</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -20,19 +89,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Listado">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Listado">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ControladoraEscuderias" asp-action="Listado">Escuderias</a>
+                            <a class="nav-link" asp-area="" asp-controller="ControladoraEscuderias" asp-action="Listado">Escuderias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ControladoraPilotos" asp-action="Listado">Pilotos</a>
+                            <a class="nav-link" asp-area="" asp-controller="ControladoraPilotos" asp-action="Listado">Pilotos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ControladoraCarreras" asp-action="Listado">Carreras</a>
+                            <a class="nav-link" asp-area="" asp-controller="ControladoraCarreras" asp-action="Listado">Carreras</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ControladoraEstadisticas" asp-action="Listado">Estadisticas</a>
+                            <a class="nav-link" asp-area="" asp-controller="ControladoraEstadisticas" asp-action="Listado">Estadísticas</a>
                         </li>
                     </ul>
                 </div>
@@ -45,7 +114,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer>
         <div class="container">
             &copy; 2024 - Formula_1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
