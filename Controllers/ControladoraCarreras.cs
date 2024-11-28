@@ -131,67 +131,102 @@ namespace Formula_1.Controllers
             return RedirectToAction("Listado");
         }
 
-        public IActionResult IngresoDeResultado(int id, int Piloto, int PosicionSalida, int PosicionLlegada)
+        public IActionResult IngresoDeResultado(int id, int? Piloto, int? PosicionSalida, int? PosicionLlegada)
         {
+            // Obtener lista de pilotos con sus escuderías y resultados
             List<Piloto> pilotos = _context.Pilotos
-                                        .Include(p => p.Resultados)
-                                        .Include(p => p.Escuderia)
-                                        .ToList();
+                                           .Include(p => p.Resultados)
+                                           .Include(p => p.Escuderia)
+                                           .ToList();
 
+            // Obtener lista de resultados asociados a la carrera
             List<Resultado> resultados = _context.Resultados
-                                                .Include(r => r.Carrera)
-                                                .Where(r => r.IdCarrera == id)
-                                                .Include(r => r.Piloto)
-                                                .ToList();
-       
-            if (Piloto != null)
+                                                 .Include(r => r.Carrera)
+                                                 .Include(r => r.Piloto)
+                                                 .Where(r => r.IdCarrera == id)
+                                                 .ToList();
+
+            // Validar si se están ingresando datos de piloto y posiciones
+            if (Piloto.HasValue && PosicionSalida.HasValue && PosicionLlegada.HasValue)
             {
+                Piloto? pilotoSeleccionado = pilotos.FirstOrDefault(p => p.NumeroPiloto == Piloto.Value);
 
-                if (pilotos.Find(p => p.NumeroPiloto == Piloto) != null)
+                if (pilotoSeleccionado != null)
                 {
+                    // Crear nuevo resultado
+                    Resultado nuevoResultado = new Resultado
+                    {
+                        IdCarrera = id,
+                        Piloto = pilotoSeleccionado,
+                        PosicionSalida = PosicionSalida.Value,
+                        PosicionLlegada = PosicionLlegada.Value
+                    };
 
-                    Resultado res1 = new Resultado(id, Piloto, PosicionSalida, PosicionLlegada);
-                    _context.Add(res1);
+                    // Guardar el resultado en la base de datos
+                    _context.Resultados.Add(nuevoResultado);
                     _context.SaveChanges();
-                    //Agregar puntos al piloto de acuerdo a su poscion
-                    //Agregar puntos a la escuderia de acuerdo a la posicion del piloto
-                    //capaz que lo mejor es hacer una funcion en piloto capaz de definicion de puntaje, se le pasa la posicion y devuelve el puntaje de acuerdo a lo establecido en la letra del obligatorio
 
-                    //! puede dar erro el piloto que supuestamente no puede ser null, pero la idea es que si se pasa piloto y posiciones, se guarde. pero en caso de ser la primera vez que se ingresa al ingresarResultado, solo se pase el id. sino habria que hacer otro IActionResult para la 2da y posteriores ingresos de resultados
-                }   
+                    // Asignar puntos al piloto y a su escudería
+                    AsignarPuntos(pilotoSeleccionado, PosicionLlegada.Value);
                 }
             }
 
+            // Remover pilotos ya asignados
             foreach (Resultado resultado in resultados)
             {
                 pilotos.Remove(resultado.Piloto);
             }
 
+            // Obtener posiciones disponibles
+            List<int> PosicionesSalida = Enumerable.Range(1, 20).Except(resultados.Select(r => r.PosicionSalida)).ToList();
+            List<int> PosicionesLlegada = Enumerable.Range(1, 20).Except(resultados.Select(r => r.PosicionLlegada)).ToList();
+
+            // Pasar datos a la vista
             ViewBag.Resultados = resultados;
             ViewBag.Pilotos = pilotos;
             ViewBag.Carrera = _context.Carreras.Find(id);
-
-            List<int> PosicionesSalida = new List<int>();
-            List<int> PosicionesLlegada = new List<int>();
-
-            for (int i = 1; i <= 20; i++)
-            {
-                PosicionesSalida.Add(i);
-                PosicionesLlegada.Add(i);
-            }
-
-            foreach (Resultado resultado in resultados) 
-            {
-                PosicionesSalida.Remove(resultado.PosicionSalida);
-                PosicionesLlegada.Remove(resultado.PosicionLlegada);
-            }
-
             ViewBag.PosicionesSalida = PosicionesSalida;
             ViewBag.PosicionesLlegada = PosicionesLlegada;
 
-            return View();
+            return View("Listado");
         }
 
-        
+        // Método para asignar puntos al piloto y su escudería
+        private void AsignarPuntos(Piloto piloto, int posicionLlegada)
+        {
+            int puntos = CalcularPuntosPorPosicion(posicionLlegada);
+
+            // Asignar puntos al piloto
+            piloto.PuntajeAcumulado += puntos;
+
+            // Asignar puntos a la escudería
+            if (piloto.Escuderia != null)
+            {
+                piloto.Escuderia.PuntajeAcumulado += puntos;
+            }
+
+            _context.SaveChanges();
+        }
+
+        // Método para calcular puntos según la posición de llegada
+        private int CalcularPuntosPorPosicion(int posicion)
+        {
+            switch (posicion)
+            {
+                case 1: return 25;
+                case 2: return 18;
+                case 3: return 15;
+                case 4: return 12;
+                case 5: return 10;
+                case 6: return 8;
+                case 7: return 6;
+                case 8: return 4;
+                case 9: return 2;
+                case 10: return 1;
+                default: return 0;
+            }
+        }
+
+
     }
 }
