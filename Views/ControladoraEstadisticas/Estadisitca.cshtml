@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Formula_1.Models.Pilto>
+﻿@model IEnumerable<Formula_1.Models.Piloto>
 
 @{
 	ViewBag.Title = "Estadisiticas";
@@ -29,7 +29,7 @@
 			@foreach (Piloto piloto in ViewBag.Pilotos)
 			{
 				<tr>
-					<td>@piloto.Numero</td>
+					<td>@piloto.NumeroPiloto </td>
 				</tr>
 			}
 		</tbody>

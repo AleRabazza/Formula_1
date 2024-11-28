@@ -1,0 +1,42 @@
+﻿<h1>Ingreso de Resultado</h1>
+
+<h3>Gran premio de @ViewBag.Carrera.Ciudad</h3>
+
+<p class="text-warning">@ViewBag.Error</p>
+
+<form asp-action="Crear" method="post" class="form-group">
+    <input type="hidden" name="id" value="@ViewBag.Id" />
+    <div class="form-control">
+        <label for="Piloto">Selecione el piloto</label>
+        <select name="Piloto">
+            @foreach (Piloto piloto in ViewBag.Pilotos)
+            {
+                <option value="@piloto.NombrePiloto">@piloto.NombrePiloto</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="PosicionSalida">Selecione la posicion de Salida</label>
+        <select name="PosicionSalida">
+            @foreach (int posicion in ViewBag.PosicionesSalida)
+            {
+                <option value="@posicion">@posicion</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="PosicionLLegada">Selecione la posicion de Llegada</label>
+        <select name="PosicionLLegada">
+            @foreach (int posicion in ViewBag.PosicionesLlegada)
+            {
+                <option value="@posicion">@posicion</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="@Url.Action("IngresoDeResultado", "ControladoraCarreras")" class="btn btn-secondary">Cancelar</a>
+
+</form>

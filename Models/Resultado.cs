@@ -18,5 +18,15 @@ namespace Formula_1.Models
         public int PosicionSalida { get; set; }
 
         public int PosicionLlegada { get; set; }
+
+        public Resultado() { }
+
+        public Resultado(int idCarrera, int idPiloto, int posicionSalida, int posicionLlegada)
+        {
+            IdCarrera = idCarrera;
+            IdPiloto = idPiloto;
+            PosicionSalida = posicionSalida;
+            PosicionLlegada = posicionLlegada;
+        }
     }
 }

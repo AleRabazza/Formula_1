@@ -1,13 +1,22 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Formula_1.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Formula_1.Controllers
 {
     public class ControladoraEstadisticas : Controller
     {
+        private readonly AppDbContext _context;
+
+        public ControladoraEstadisticas(AppDbContext context)
+        {
+            _context = context;
+        }
+
         // GET: ControladoraEstadisticas
         public ActionResult Listado()
         {
+            ViewBag.Pilotos = _context.Pilotos.ToList();  
             return View();
         }
 
