@@ -1,0 +1,70 @@
+﻿@{
+	ViewBag.Title = "Estadisiticas";
+}
+
+
+<div class="text-center mb-3 my-3">
+	<h1>Bienvenido a la central de Estadisiticas</h1>
+
+	<h4>Todo sobre la Forumla 1 al alcance de tu mano</h4>
+</div>
+
+<div class="text-start my-3">
+	<h1>Mundial de Pilotos</h1>
+	<table class="text-center>
+		<thead>
+			<tr>				
+				<td>Numero</td>
+				<td>Nombre</td>
+				<td>Escuderia</td>
+				<td>Puntaje</td>
+				<td>Historial</td>				
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (Piloto piloto in ViewBag.Pilotos)
+			{
+				<tr>
+					<td>@piloto.NumeroAuto</td>
+					<td>@piloto.NombrePiloto</td>
+					<td>@piloto.Escuderia.Nombre</td>
+					<td>@piloto.PuntajeAcumulado</td>
+					<td>
+						<a href="@Url.Action("Historial", "ControladoraEstadisticas", new { id = piloto.NumeroPiloto })" class="btn btn-primary btn-sm">Ver</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<div class="text-end my-3">
+	<h1>Mundial de Constructores</h1>
+	<table class="text-center">
+		<thead>
+			<tr>Nombre</tr>
+			<tr>Sponsor</tr>
+			<tr>Pais de Origen</tr>
+			<tr>Piloto 1</tr>
+			<tr>Piloto 2</tr>
+			<tr>Puntaje Acumulado</tr>
+			<tr>Resultados</tr>
+		</thead>
+		<tbody>
+			@foreach(Escuderia esc in ViewBag.Escuderias)
+			{
+				<tr>
+					<td>@esc.Nombre</td>
+					<td>@esc.SponsorPrincipal</td>
+					<td>@esc.PaisDeOrigen</td>
+					<td>@esc.pilotos[0].NombrePiloto</td>
+					<td>@esc.pilotos[1].NombrePiloto</td>
+					<td>@esc.PuntajeAcumulado</td>
+					<td>
+						<a href="@Url.Action("HistorialEscuderias", "ControladoraCarreras", new { id = Escuderia.IdEscuderia })" class="btn btn-primary btn-sm">Ver</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

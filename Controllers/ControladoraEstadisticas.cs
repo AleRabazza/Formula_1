@@ -1,6 +1,8 @@
 ﻿using Formula_1.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Formula_1.Models;
 
 namespace Formula_1.Controllers
 {
@@ -14,37 +16,31 @@ namespace Formula_1.Controllers
         }
 
         // GET: ControladoraEstadisticas
-        public ActionResult Listado()
+        public ActionResult Estadisticas()
         {
-            ViewBag.Pilotos = _context.Pilotos.ToList();  
-            return View();
+            List<Piloto> Pilotos = _context.Pilotos
+                                    .Include(p => p.Resultados)
+                                    .Include(p => p.Escuderia)
+                                    .ToList();
+
+            Pilotos.Sort((p1, p2) => p2.PuntajeAcumulado.CompareTo(p1.PuntajeAcumulado));
+
+            List<Escuderia> Escuderias = _context.Escuderia
+                                                    .Include(e => e.pilotos)
+                                                    .ToList();
+
+            Escuderias.Sort((e1, e2) => e2.PuntajeAcumulado.CompareTo(e1.PuntajeAcumulado));
+
+            ViewBag.Pilotos = Pilotos;
+            ViewBag.Escuderias = Escuderias;
+
+            return View("Estadistica");
         }
 
         // GET: ControladoraEstadisticas/Details/5
         public ActionResult Details(int id)
         {
             return View();
-        }
-
-        // GET: ControladoraEstadisticas/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ControladoraEstadisticas/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: ControladoraEstadisticas/Edit/5
