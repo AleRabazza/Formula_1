@@ -251,6 +251,8 @@ namespace Formula_1.Controllers
             _context.Pilotos.Add(piloto18);
             _context.SaveChanges();
 
+            return View("Listado");
+
         }
     }
 
