@@ -151,17 +151,17 @@ namespace Formula_1.Controllers
             if (_context.Escuderia.Count() <= 0)
             {
                 List<Escuderia> escuderias = new List<Escuderia>
-        {
-            new Escuderia("Ferrari", "Italia", "Shell", 0),
-            new Escuderia("Mercedes", "Alemania", "Petronas", 0),
-            new Escuderia("Red Bull Racing", "Austria", "Oracle", 0),
-            new Escuderia("McLaren", "Reino Unido", "Gulf Oil", 0),
-            new Escuderia("Alpine", "Francia", "BWT", 0),
-            new Escuderia("Aston Martin", "Reino Unido", "Cognizant", 0),
-            new Escuderia("Alfa Romeo", "Suiza", "Orlen", 0),
-            new Escuderia("Haas", "Estados Unidos", "MoneyGram", 0),
-            new Escuderia("Williams", "Reino Unido", "Duracell", 0)
-        };
+                {
+                new Escuderia("Ferrari", "Italia", "Shell", 0),
+                new Escuderia("Mercedes", "Alemania", "Petronas", 0),
+                new Escuderia("Red Bull Racing", "Austria", "Oracle", 0),
+                new Escuderia("McLaren", "Reino Unido", "Gulf Oil", 0),
+                new Escuderia("Alpine", "Francia", "BWT", 0),
+                new Escuderia("Aston Martin", "Reino Unido", "Cognizant", 0),
+                new Escuderia("Alfa Romeo", "Suiza", "Orlen", 0),
+                new Escuderia("Haas", "Estados Unidos", "MoneyGram", 0),
+                new Escuderia("Williams", "Reino Unido", "Duracell", 0),             
+                };
 
                 _context.Escuderia.AddRange(escuderias);
                 _context.SaveChanges();
