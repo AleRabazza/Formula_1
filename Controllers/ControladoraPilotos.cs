@@ -29,28 +29,40 @@ namespace Formula_1.Controllers
 
             if (_context.Pilotos.Count() == 0)
             {
+                Escuderia RedBull = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Red Bull Racing");
+                Escuderia Ferrari = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Ferrari");
+                Escuderia Mercedes = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Mercedes");
+                Escuderia McLaren = _context.Escuderia.FirstOrDefault(e => e.Nombre == "McLaren");
+                Escuderia Alpine = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alpine");
+                Escuderia AstonMartin = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Aston Martin");
+                Escuderia AlfaRomeo = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alfa Romeo");
+                Escuderia Williams = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Williams");
+                Escuderia Haas = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Haas");
+
+
+
                 // Lista de pilotos precargados
                 List<Piloto> pilotosPrecargados = new List<Piloto>
-        {
-            new Piloto(1, "Max Verstappen", DateOnly.Parse("1997-09-30"), "Holanda", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Red Bull Racing")),
-            new Piloto(3, "Daniel Ricciardo", DateOnly.Parse("1989-07-01"), "Australia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Red Bull Racing")),
-            new Piloto(4, "Lando Norris", DateOnly.Parse("1999-11-13"), "Reino Unido", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Ferrari")),
-            new Piloto(10, "Pierre Gasly", DateOnly.Parse("1996-02-07"), "Francia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Ferrari")),
-            new Piloto(14, "Fernando Alonso", DateOnly.Parse("1981-07-29"), "España", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Mercedes")),
-            new Piloto(16, "Charles Leclerc", DateOnly.Parse("1997-10-16"), "Monaco", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Mercedes")),
-            new Piloto(18, "Lance Stroll", DateOnly.Parse("1998-10-29"), "Canadá", _context.Escuderia.FirstOrDefault(e => e.Nombre == "McLaren")),
-            new Piloto(20, "Kevin Magnussen", DateOnly.Parse("1992-10-05"), "Dinamarca", _context.Escuderia.FirstOrDefault(e => e.Nombre == "McLaren")),
-            new Piloto(22, "Yuki Tsunoda", DateOnly.Parse("2000-05-11"), "Japón", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alpine")),
-            new Piloto(23, "Alex Albon", DateOnly.Parse("1996-03-23"), "Tailandia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alpine")),
-            new Piloto(24, "Guanyu Zhou", DateOnly.Parse("1999-05-30"), "China", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Aston Martin")),
-            new Piloto(27, "Nico Hulkenberg", DateOnly.Parse("1987-08-19"), "Alemania", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Aston Martin")),
-            new Piloto(30, "Liam Lawson", DateOnly.Parse("2002-02-11"), "Nueva Zelanda", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alfa Romeo")),
-            new Piloto(31, "Esteban Ocon", DateOnly.Parse("1996-09-17"), "Francia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alfa Romeo")),
-            new Piloto(43, "Franco Colapinto", DateOnly.Parse("2003-05-22"), "Argentina", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Haas")),
-            new Piloto(44, "Lewis Hamilton", DateOnly.Parse("1985-01-07"), "Reino Unido", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Haas")),
-            new Piloto(55, "Carlos Sainz", DateOnly.Parse("1994-09-01"), "España", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Williams")),
-            new Piloto(77, "Valtteri Bottas", DateOnly.Parse("1989-08-28"), "Finlandia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Williams"))
-        };
+                {
+                    new Piloto(1, "Max Verstappen", DateOnly.Parse("1997-09-30"), "Holanda", RedBull),
+                    new Piloto(3, "Daniel Ricciardo", DateOnly.Parse("1989-07-01"), "Australia", RedBull),
+                    new Piloto(4, "Lando Norris", DateOnly.Parse("1999-11-13"), "Reino Unido", McLaren),
+                    new Piloto(10, "Pierre Gasly", DateOnly.Parse("1996-02-07"), "Francia", Alpine),
+                    new Piloto(14, "Fernando Alonso", DateOnly.Parse("1981-07-29"), "España", AstonMartin),
+                    new Piloto(16, "Charles Leclerc", DateOnly.Parse("1997-10-16"), "Monaco", Ferrari),
+                    new Piloto(18, "Lance Stroll", DateOnly.Parse("1998-10-29"), "Canadá", AstonMartin),
+                    new Piloto(20, "Kevin Magnussen", DateOnly.Parse("1992-10-05"), "Dinamarca", Haas),
+                    new Piloto(22, "Yuki Tsunoda", DateOnly.Parse("2000-05-11"), "Japón", Mercedes),
+                    new Piloto(23, "Alex Albon", DateOnly.Parse("1996-03-23"), "Tailandia", Williams),
+                    new Piloto(24, "Guanyu Zhou", DateOnly.Parse("1999-05-30"), "China", AlfaRomeo),
+                    new Piloto(27, "Nico Hulkenberg", DateOnly.Parse("1987-08-19"), "Alemania", Haas),
+                    new Piloto(30, "Liam Lawson", DateOnly.Parse("2002-02-11"), "Nueva Zelanda", McLaren),
+                    new Piloto(31, "Esteban Ocon", DateOnly.Parse("1996-09-17"), "Francia", Alpine),
+                    new Piloto(43, "Franco Colapinto", DateOnly.Parse("2003-05-22"), "Argentina", Williams),
+                    new Piloto(44, "Lewis Hamilton", DateOnly.Parse("1985-01-07"), "Reino Unido", Mercedes),
+                    new Piloto(55, "Carlos Sainz", DateOnly.Parse("1994-09-01"), "España", Ferrari),
+                    new Piloto(77, "Valtteri Bottas", DateOnly.Parse("1989-08-28"), "Finlandia", AlfaRomeo)
+                };
 
                 _context.Pilotos.AddRange(pilotosPrecargados);
                 _context.SaveChanges();
@@ -87,7 +99,9 @@ namespace Formula_1.Controllers
         // GET: ControladoraPilotos/Create
         public IActionResult Crear()
         {
-            List<Escuderia> escuderiaLista = _context.Escuderia.Where(esc => esc.CantidadDePilotos < 2).ToList();
+            List<Escuderia> escuderiaLista = _context.Escuderia.Where(esc => esc.CantidadDePilotos < 2)
+                                                .Include(e => e.pilotos)
+                                                .ToList();
             ViewBag.Escuderias = escuderiaLista;
 
             return View();

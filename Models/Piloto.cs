@@ -32,6 +32,7 @@ namespace Formula_1.Models
             FechaNac = fechaNac;
             PaisDeOrigen = paisDeOrigen;
             this.Escuderia = escuderia;
+            EscuderiaId = escuderia.IdEscuderia;
             PuntajeAcumulado = 0;
             Resultados = new List<Resultado>();
         }
