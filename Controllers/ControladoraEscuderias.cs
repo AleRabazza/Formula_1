@@ -20,14 +20,36 @@ namespace Formula_1.Controllers
         // GET: ControladoraEscuderias
         public ActionResult Listado()
         {
+            // Verifica si la base de datos está vacía
+            if (_context.Escuderia.Count() == 0)
+            {
+                // Precarga de datos si no existen escuderías
+                List<Escuderia> escuderiasPreCargadas = new List<Escuderia>
+                {
+                    new Escuderia("Ferrari", "Italia", "Shell", 0),
+                    new Escuderia("Mercedes", "Alemania", "Petronas", 0),
+                    new Escuderia("Red Bull Racing", "Austria", "Oracle", 0),
+                    new Escuderia("McLaren", "Reino Unido", "Gulf Oil", 0),
+                    new Escuderia("Alpine", "Francia", "BWT", 0),
+                    new Escuderia("Aston Martin", "Reino Unido", "Cognizant", 0),
+                    new Escuderia("Alfa Romeo", "Suiza", "Orlen", 0),
+                    new Escuderia("Haas", "Estados Unidos", "MoneyGram", 0),
+                    new Escuderia("Williams", "Reino Unido", "Duracell", 0)
+        };
+
+                // Agrega las escuderías al contexto y guarda cambios
+                _context.Escuderia.AddRange(escuderiasPreCargadas);
+                _context.SaveChanges();
+            }
+
+            // Obtiene la lista de escuderías actualizada
             List<Escuderia> listaEscuderias = _context.Escuderia.ToList();
             ViewBag.Escuderias = listaEscuderias;
-            ViewBag.PuedeAgregar = Validacion();
+            ViewBag.PuedeAgregar = Validacion1(); 
 
             return View("Listado");
-            
         }
-        private bool Validacion()
+        private bool Validacion1()
         {
             if (_context.Escuderia.Count() < 10)
             {
@@ -146,28 +168,5 @@ namespace Formula_1.Controllers
             return RedirectToAction("Listado");
         }
 
-        public IActionResult PreCarga()
-        {
-            if (_context.Escuderia.Count() <= 0)
-            {
-                List<Escuderia> escuderias = new List<Escuderia>
-                {
-                new Escuderia("Ferrari", "Italia", "Shell", 0),
-                new Escuderia("Mercedes", "Alemania", "Petronas", 0),
-                new Escuderia("Red Bull Racing", "Austria", "Oracle", 0),
-                new Escuderia("McLaren", "Reino Unido", "Gulf Oil", 0),
-                new Escuderia("Alpine", "Francia", "BWT", 0),
-                new Escuderia("Aston Martin", "Reino Unido", "Cognizant", 0),
-                new Escuderia("Alfa Romeo", "Suiza", "Orlen", 0),
-                new Escuderia("Haas", "Estados Unidos", "MoneyGram", 0),
-                new Escuderia("Williams", "Reino Unido", "Duracell", 0),             
-                };
-
-                _context.Escuderia.AddRange(escuderias);
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("Listado");
-        }
     }
 }

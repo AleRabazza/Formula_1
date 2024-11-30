@@ -33,6 +33,17 @@
         }
     </tbody>
 </table>
-<a href="@Url.Action("Crear", "ControladoraEscuderias")" class="btn btn-primary" style="@(ViewBag.PuedeAgregar ? "" : "display:none;")"> Agregar Nueva Escudería </a>
-<a href="@Url.Action("PreCarga", "ControladoraEscuderias")" class="btn btn-success">Pre-Carga Escuderias</a>
 
+
+<div>
+    @if ((ViewBag.PuedeAgregar as bool?) ?? false)
+    {
+        <a href="@Url.Action("Crear", "ControladoraEscuderias")" class="btn btn-primary" style="@(ViewBag.PuedeAgregar ? "" : "display:none;")"> Agregar Nueva Escudería </a>
+
+
+    }
+    else
+    {
+        <p>No se pueden agregar más Escuderias. El límite es 10.</p>
+    }
+</div>

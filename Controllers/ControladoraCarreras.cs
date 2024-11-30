@@ -150,7 +150,8 @@ namespace Formula_1.Controllers
             // Remover pilotos ya asignados
             foreach (Resultado resultado in resultados)
             {
-                pilotos.Remove(resultado.Piloto);
+                Piloto piloto = resultado.Piloto;
+                pilotos.Remove(piloto);
             }
 
             // Obtener posiciones disponibles

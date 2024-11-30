@@ -35,4 +35,17 @@
         }
     </tbody>
 </table>
-<a href="@Url.Action("Crear")" class="btn btn-primary">Agregar Piloto</a>
+
+
+<div>
+    @if ((ViewBag.PuedeAgregar as bool?) ?? false)
+    {
+        <a href="@Url.Action("Crear", "ControladoraPilotos")" class="btn btn-primary">Agregar Nuevo Piloto</a>
+    }
+    else
+    {
+        <p>No se pueden agregar más pilotos. El límite es 20.</p>
+    }
+</div>
+
+

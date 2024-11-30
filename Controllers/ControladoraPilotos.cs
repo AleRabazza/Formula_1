@@ -18,15 +18,53 @@ namespace Formula_1.Controllers
 
 
         // GET: ControladoraPilotos
+
+
         public IActionResult Listado()
         {
             List<Piloto> ListaPilotos = _context.Pilotos
                 .Include(piloto => piloto.Escuderia)
                 .ToList();
             ViewBag.Pilotos = ListaPilotos;
-            return View();
-        }
 
+            if (_context.Pilotos.Count() == 0)
+            {
+                // Lista de pilotos precargados
+                List<Piloto> pilotosPrecargados = new List<Piloto>
+        {
+            new Piloto(1, "Max Verstappen", DateOnly.Parse("1997-09-30"), "Holanda", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Red Bull Racing")),
+            new Piloto(3, "Daniel Ricciardo", DateOnly.Parse("1989-07-01"), "Australia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Red Bull Racing")),
+            new Piloto(4, "Lando Norris", DateOnly.Parse("1999-11-13"), "Reino Unido", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Ferrari")),
+            new Piloto(10, "Pierre Gasly", DateOnly.Parse("1996-02-07"), "Francia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Ferrari")),
+            new Piloto(14, "Fernando Alonso", DateOnly.Parse("1981-07-29"), "España", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Mercedes")),
+            new Piloto(16, "Charles Leclerc", DateOnly.Parse("1997-10-16"), "Monaco", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Mercedes")),
+            new Piloto(18, "Lance Stroll", DateOnly.Parse("1998-10-29"), "Canadá", _context.Escuderia.FirstOrDefault(e => e.Nombre == "McLaren")),
+            new Piloto(20, "Kevin Magnussen", DateOnly.Parse("1992-10-05"), "Dinamarca", _context.Escuderia.FirstOrDefault(e => e.Nombre == "McLaren")),
+            new Piloto(22, "Yuki Tsunoda", DateOnly.Parse("2000-05-11"), "Japón", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alpine")),
+            new Piloto(23, "Alex Albon", DateOnly.Parse("1996-03-23"), "Tailandia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alpine")),
+            new Piloto(24, "Guanyu Zhou", DateOnly.Parse("1999-05-30"), "China", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Aston Martin")),
+            new Piloto(27, "Nico Hulkenberg", DateOnly.Parse("1987-08-19"), "Alemania", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Aston Martin")),
+            new Piloto(30, "Liam Lawson", DateOnly.Parse("2002-02-11"), "Nueva Zelanda", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alfa Romeo")),
+            new Piloto(31, "Esteban Ocon", DateOnly.Parse("1996-09-17"), "Francia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Alfa Romeo")),
+            new Piloto(43, "Franco Colapinto", DateOnly.Parse("2003-05-22"), "Argentina", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Haas")),
+            new Piloto(44, "Lewis Hamilton", DateOnly.Parse("1985-01-07"), "Reino Unido", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Haas")),
+            new Piloto(55, "Carlos Sainz", DateOnly.Parse("1994-09-01"), "España", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Williams")),
+            new Piloto(77, "Valtteri Bottas", DateOnly.Parse("1989-08-28"), "Finlandia", _context.Escuderia.FirstOrDefault(e => e.Nombre == "Williams"))
+        };
+
+                _context.Pilotos.AddRange(pilotosPrecargados);
+                _context.SaveChanges();
+
+                ViewBag.Pilotos = _context.Pilotos
+                    .Include(piloto => piloto.Escuderia)
+                    .ToList();
+                ViewBag.PuedeAgregar = _context.Pilotos.Count() < 20 ? true : false;
+
+            }
+
+            return View("Listado");
+        }
+     
         // GET: ControladoraPilotos/Details/5
         public ActionResult detalles(int? numP)
         {
@@ -71,7 +109,7 @@ namespace Formula_1.Controllers
                 return View("Crear");
             }
 
-            Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, Escuderia, esc1);
+            Piloto piloto = new Piloto(numero, nombre, FechaNac, PaisOrg, esc1);
 
             if (!piloto.Validacion())
             {
@@ -194,67 +232,6 @@ namespace Formula_1.Controllers
             return RedirectToAction("Listado");
 
         }
-
-
-        public ActionResult PreCargaPilotos()
-        {
-            if (_context.Pilotos.ToList().Count != 0)
-            {
-                ViewBag.Error = "Ya existen datos cargados";
-                return View("Listado");
-            }
-
-            if (_context.Escuderia.ToList().Count < 18)
-            {
-                ViewBag.Error = "Debe realizar la precarga de Escuderias primero";
-                return View("Listado");
-            }
-
-
-
-            Piloto piloto1 = new Piloto(1, "Max Verstappen", DateOnly.Parse("30 / 9 / 1997"), "Holanda", 3, _context.Escuderia.Find(3));
-            Piloto piloto2 = new Piloto(3, "Daniel Ricciardo", DateOnly.Parse("01 / 7 / 1989"), "Australia", 3, _context.Escuderia.Find(3));
-            Piloto piloto3 = new Piloto(4, "Lando Noris", DateOnly.Parse("13 / 11 / 1999"), "Reino Unido", 4, _context.Escuderia.Find(4));
-            Piloto piloto4 = new Piloto(10, "Pierre Gasly", DateOnly.Parse("07 / 2 / 1996"), "Francia", 5, _context.Escuderia.Find(5));
-            Piloto piloto5 = new Piloto(14, "Fernando Alonso", DateOnly.Parse("29 / 7 / 1981"), "España", 6, _context.Escuderia.Find(6));
-            Piloto piloto6 = new Piloto(16, "Charles Leclerc", DateOnly.Parse("16 /10/1997"), "Monaco", 1, _context.Escuderia.Find(1));
-            Piloto piloto7 = new Piloto(18, "Lance Stroll", DateOnly.Parse("29 / 10 / 1998"), "Canada", 6, _context.Escuderia.Find(6));
-            Piloto piloto8 = new Piloto(20, "Kevin Magnussen", DateOnly.Parse("05 / 10 / 1992"), "Dinamarca", 8, _context.Escuderia.Find(8));
-            Piloto piloto9 = new Piloto(22, "Yuki Tsunoda", DateOnly.Parse("11 / 05 / 2000"), "Japon", 2, _context.Escuderia.Find(2));
-            Piloto piloto10 = new Piloto(23, "Alex Albon", DateOnly.Parse("23 / 03 / 1996"), "Tailandia", 9, _context.Escuderia.Find(9));
-            Piloto piloto11 = new Piloto(24, "Guanyu Zhou", DateOnly.Parse("30 / 5 / 1999"), "China", 7, _context.Escuderia.Find(7));
-            Piloto piloto12 = new Piloto(27, "Nico Hulkenberg", DateOnly.Parse("19 / 8 / 1987"), "Alemania", 8, _context.Escuderia.Find(8));
-            Piloto piloto13 = new Piloto(30, "Liam Lawson", DateOnly.Parse("11 / 2 / 2002"), "Nueva Zelanda",4, _context.Escuderia.Find(4));
-            Piloto piloto14 = new Piloto(31, "Esteban Ocon", DateOnly.Parse("17 / 9 / 1996"), "Francia", 5, _context.Escuderia.Find(5));
-            Piloto piloto15 = new Piloto(43, "Franco Colapinto", DateOnly.Parse("22 / 5 / 2003"), "Argentina", 9, _context.Escuderia.Find(9));
-            Piloto piloto16 = new Piloto(44, "Lewis Hamilton", DateOnly.Parse("07 / 01 / 1985"), "Reino Unido", 2, _context.Escuderia.Find(2));
-            Piloto piloto17 = new Piloto(55, "Carlos Sainz", DateOnly.Parse("1 / 9 / 1994"), "España", 1, _context.Escuderia.Find(1));
-            Piloto piloto18 = new Piloto(77, "Valtteri Bottas", DateOnly.Parse("28 / 8 / 1989"), "Finlandia", 7, _context.Escuderia.Find(7));
-            
-            _context.Pilotos.Add(piloto1);
-            _context.Pilotos.Add(piloto2);
-            _context.Pilotos.Add(piloto3);
-            _context.Pilotos.Add(piloto4);
-            _context.Pilotos.Add(piloto5);
-            _context.Pilotos.Add(piloto6);
-            _context.Pilotos.Add(piloto7);
-            _context.Pilotos.Add(piloto8);
-            _context.Pilotos.Add(piloto9);
-            _context.Pilotos.Add(piloto10);
-            _context.Pilotos.Add(piloto11);
-            _context.Pilotos.Add(piloto12);
-            _context.Pilotos.Add(piloto13);
-            _context.Pilotos.Add(piloto14);
-            _context.Pilotos.Add(piloto15);
-            _context.Pilotos.Add(piloto16); 
-            _context.Pilotos.Add(piloto17);
-            _context.Pilotos.Add(piloto18);
-            _context.SaveChanges();
-
-            return View("Listado");
-
-        }
     }
 
 }
-

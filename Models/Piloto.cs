@@ -25,13 +25,12 @@ namespace Formula_1.Models
         {
         }
 
-        public Piloto(int numeroAuto, string nombrePiloto, DateOnly fechaNac, string paisDeOrigen,int escuderiaId, Escuderia escuderia)
+        public Piloto(int numeroAuto, string nombrePiloto, DateOnly fechaNac, string paisDeOrigen, Escuderia escuderia)
         {
             NumeroAuto = numeroAuto;
             NombrePiloto = nombrePiloto;
             FechaNac = fechaNac;
             PaisDeOrigen = paisDeOrigen;
-            EscuderiaId = escuderiaId;
             this.Escuderia = escuderia;
             PuntajeAcumulado = 0;
             Resultados = new List<Resultado>();
