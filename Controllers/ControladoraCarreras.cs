@@ -169,6 +169,8 @@ namespace Formula_1.Controllers
                 PosicionesLlegada.Remove(resultado.PosicionLlegada);
             }
 
+           
+
             ViewBag.PosicionesSalida = PosicionesSalida;
             ViewBag.PosicionesLlegada = PosicionesLlegada;
 
@@ -185,11 +187,13 @@ namespace Formula_1.Controllers
         [HttpPost]
         public ActionResult GuardarResultado(int IdCarrera, int Piloto, int PosicionLlegada, int PosicionSalida)
         {
-           if (_context.Carreras.Find(IdCarrera) == null)
+            Console.WriteLine("aca1");
+            if (_context.Carreras.Find(IdCarrera) == null)
             {
                 ViewBag.Error = "Carrera no encontrada";
                 return View("IngresoDeResultado");
             }
+            Console.WriteLine("aca2");
 
             // Crear nuevo resultado
             Resultado nuevoResultado = new Resultado
@@ -199,19 +203,22 @@ namespace Formula_1.Controllers
                 PosicionSalida,
                 PosicionLlegada
             );
-
+            Console.WriteLine("aca3");
             // Guardar el resultado en la base de datos
             _context.Resultados.Add(nuevoResultado);
             _context.SaveChanges();
+            Console.WriteLine("aca4");
 
             // Asignar puntos al piloto y a su escudería
             AsignarPuntos(_context.Pilotos.Find(Piloto), PosicionLlegada);
-            return View("IngresoDeResultado", IdCarrera);
+            return Redirect($"/ControladoraCarreras/IngresoDeResultado/ {IdCarrera}");
+          
         }
 
         // Método para asignar puntos al piloto y su escudería
         private void AsignarPuntos(Piloto piloto, int posicionLlegada)
         {
+
             int puntos = CalcularPuntosPorPosicion(posicionLlegada);
 
             // Asignar puntos al piloto
