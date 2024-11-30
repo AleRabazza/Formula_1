@@ -57,11 +57,11 @@
 					<td>@esc.Nombre</td>
 					<td>@esc.SponsorPrincipal</td>
 					<td>@esc.PaisDeOrigen</td>
-					<td>@esc.pilotos[0].NombrePiloto</td>
-					<td>@esc.pilotos[1].NombrePiloto</td>
+					<td>@(esc.pilotos[0].NombrePiloto ?? string.Empty) </td>
+					<td>@(esc.pilotos[1].NombrePiloto ?? string.Empty)</td>
 					<td>@esc.PuntajeAcumulado</td>
 					<td>
-						<a href="@Url.Action("HistorialEscuderias", "ControladoraCarreras", new { id = "Escuderia.IdEscuderia" })" class="btn btn-primary btn-sm">Ver</a>
+						<a href="@Url.Action("HistorialEscuderias", "ControladoraCarreras", new { id = esc.IdEscuderia })" class="btn btn-primary btn-sm">Ver</a>
 					</td>
 				</tr>
 			}
