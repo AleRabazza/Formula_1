@@ -63,16 +63,17 @@ namespace Formula_1.Controllers
                     new Piloto(55, "Carlos Sainz", DateOnly.Parse("1994-09-01"), "España", Ferrari),
                     new Piloto(77, "Valtteri Bottas", DateOnly.Parse("1989-08-28"), "Finlandia", AlfaRomeo)
                 };
+            
 
                 _context.Pilotos.AddRange(pilotosPrecargados);
                 _context.SaveChanges();
-
-                ViewBag.Pilotos = _context.Pilotos
+            }
+            ViewBag.Pilotos = _context.Pilotos
                     .Include(piloto => piloto.Escuderia)
                     .ToList();
                 ViewBag.PuedeAgregar = _context.Pilotos.Count() < 20 ? true : false;
 
-            }
+            
 
             return View("Listado");
         }
