@@ -34,7 +34,9 @@ namespace Formula_1.Data
             modelBuilder.Entity<Resultado>()
                 .HasOne(r => r.Piloto)
                 .WithMany(p => p.Resultados)
-                .HasForeignKey(r => r.IdPiloto);
+                .HasForeignKey(r => r.IdPiloto)
+                .OnDelete(DeleteBehavior.SetNull);
+
 
             modelBuilder.Entity<Carrera>()
                 .HasMany(c => c.Resultados)
