@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Formula_1.Controllers
 {

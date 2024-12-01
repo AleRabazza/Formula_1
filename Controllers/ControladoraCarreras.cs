@@ -186,7 +186,7 @@ namespace Formula_1.Controllers
         }
 
         [HttpPost]
-        public ActionResult GuardarResultado(int IdCarrera, int Piloto, int PosicionLlegada, int PosicionSalida)
+        public ActionResult GuardarResultado(int IdCarrera, int piloto, int PosicionLlegada, int PosicionSalida)
         {
             Console.WriteLine("aca1");
             if (_context.Carreras.Find(IdCarrera) == null)
@@ -196,23 +196,36 @@ namespace Formula_1.Controllers
             }
             Console.WriteLine("aca2");
 
+            Carrera? carrera1 = _context.Carreras.FirstOrDefault(c => c.IdCarrera == IdCarrera);
+            Piloto? piloto1 = _context.Pilotos.FirstOrDefault(p => p.NumeroPiloto == piloto);
+
             // Crear nuevo resultado
             Resultado nuevoResultado = new Resultado
             (
-                IdCarrera,
-                Piloto,
+                carrera1,
+                piloto1,
                 PosicionSalida,
                 PosicionLlegada
             );
-            Console.WriteLine("aca3");
+
+            Console.WriteLine(IdCarrera);
+
+            if (!nuevoResultado.Verificar())
+            {
+                ViewBag.Error = "Piloto o Carrera Invalidos";
+                return View("IngresoDeResultado");
+            }
             // Guardar el resultado en la base de datos
+            AsignarPuntos(piloto1, PosicionLlegada);
+
             _context.Resultados.Add(nuevoResultado);
             _context.SaveChanges();
+
             Console.WriteLine("aca4");
 
             // Asignar puntos al piloto y a su escudería
-            AsignarPuntos(_context.Pilotos.Find(Piloto), PosicionLlegada);
-            return Redirect($"/ControladoraCarreras/IngresoDeResultado/ {IdCarrera}");
+            
+            return Redirect($"/ControladoraCarreras/IngresoDeResultado/{IdCarrera}");
           
         }
 
