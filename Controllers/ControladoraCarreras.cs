@@ -21,10 +21,12 @@ namespace Formula_1.Controllers
             List<Carrera> listaCarreras = _context.Carreras
                                                     .Include(c => c.Resultados)
                                                     .ToList();
+
+            ViewBag.cantPilotos = _context.Pilotos.Count() == 20;
             ViewBag.Carreras = listaCarreras;
             return View();
         }
-
+       
         // GET: ControladoraCarreras/Detalles/5
         public ActionResult Detalles(int? id)
         {

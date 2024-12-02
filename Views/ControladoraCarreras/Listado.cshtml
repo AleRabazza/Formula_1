@@ -33,7 +33,11 @@
                     <a href="@Url.Action("Eliminar", "ControladoraCarreras", new { id = carrera.IdCarrera })" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
                 <td>
+                    @if (ViewBag.cantPilotos){
                     <a href="@Url.Action("IngresoDeResultado", "ControladoraCarreras", new { id = carrera.IdCarrera })" class="btn btn-primary btn-sm">Ingresar</a>
+                    }else {
+                        <p>inhabilitado</p>
+                    }
                 </td>
             </tr>
         }
