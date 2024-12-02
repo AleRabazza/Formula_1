@@ -17,39 +17,36 @@ namespace Formula_1.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuramos la relación "Uno a Muchos" desde Piloto a Escuderia
             modelBuilder.Entity<Piloto>()
-                .HasOne(p => p.Escuderia)  // Un Piloto tiene una Escuderia
-                .WithMany(e => e.Pilotos)  // Una Escuderia puede tener muchos Pilotos
-                .HasForeignKey(p => p.EscuderiaId)
-                .OnDelete(DeleteBehavior.Cascade);  // La clave foránea en Piloto que referencia a Escuderia
+                .HasKey(piloto => piloto.NumeroPiloto);
+
+            modelBuilder.Entity<Carrera>()
+                .HasKey(carrera => carrera.IdCarrera);
+
+            modelBuilder.Entity<Escuderia>()
+                .HasKey(escuderia => escuderia.IdEscuderia);
 
             modelBuilder.Entity<Resultado>()
-                .HasOne(r => r.Carrera)
-                .WithMany(c => c.Resultados)
-                .HasForeignKey(r => r.IdCarrera)
-                .OnDelete(DeleteBehavior.SetNull);
-            
+                .HasKey(resultado => resultado.IdResultado);
+
+           
+            modelBuilder.Entity<Piloto>()
+                .HasOne(p => p.Escuderia)
+                .WithMany(e => e.Pilotos)
+                .HasForeignKey(p => p.EscuderiaId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Resultado>()
+             .HasOne(r => r.Carrera)
+             .WithMany(c => c.Resultados)
+             .HasForeignKey(r => r.IdCarrera)
+             .OnDelete(DeleteBehavior.Cascade);  
 
             modelBuilder.Entity<Resultado>()
                 .HasOne(r => r.Piloto)
                 .WithMany(p => p.Resultados)
                 .HasForeignKey(r => r.IdPiloto)
-                .OnDelete(DeleteBehavior.SetNull);
-
-
-            modelBuilder.Entity<Carrera>()
-                .HasMany(c => c.Resultados)
-                .WithOne(r => r.Carrera)
-                .HasForeignKey(r => r.IdCarrera)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Piloto>()
-                .HasMany(p => p.Resultados)
-                .WithOne(r => r.Piloto)
-                .HasForeignKey(r => r.IdCarrera)
-                .OnDelete(DeleteBehavior.Cascade);
-
-        }            
-     }
+        }
+    }
 }

@@ -136,6 +136,8 @@ namespace Formula_1.Migrations
 
                     b.HasIndex("IdCarrera");
 
+                    b.HasIndex("IdPiloto");
+
                     b.ToTable("Resultados");
                 });
 
@@ -160,7 +162,7 @@ namespace Formula_1.Migrations
 
                     b.HasOne("Formula_1.Models.Piloto", "Piloto")
                         .WithMany("Resultados")
-                        .HasForeignKey("IdCarrera")
+                        .HasForeignKey("IdPiloto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

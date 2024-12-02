@@ -88,8 +88,8 @@ namespace Formula_1.Migrations
                         principalColumn: "IdCarrera",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Resultados_Pilotos_IdCarrera",
-                        column: x => x.IdCarrera,
+                        name: "FK_Resultados_Pilotos_IdPiloto",
+                        column: x => x.IdPiloto,
                         principalTable: "Pilotos",
                         principalColumn: "NumeroPiloto",
                         onDelete: ReferentialAction.Cascade);
@@ -104,6 +104,11 @@ namespace Formula_1.Migrations
                 name: "IX_Resultados_IdCarrera",
                 table: "Resultados",
                 column: "IdCarrera");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resultados_IdPiloto",
+                table: "Resultados",
+                column: "IdPiloto");
         }
 
         /// <inheritdoc />

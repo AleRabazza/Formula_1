@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Formula_1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241201224802_Reinicio")]
+    [Migration("20241202004003_Reinicio")]
     partial class Reinicio
     {
         /// <inheritdoc />
@@ -139,6 +139,8 @@ namespace Formula_1.Migrations
 
                     b.HasIndex("IdCarrera");
 
+                    b.HasIndex("IdPiloto");
+
                     b.ToTable("Resultados");
                 });
 
@@ -163,7 +165,7 @@ namespace Formula_1.Migrations
 
                     b.HasOne("Formula_1.Models.Piloto", "Piloto")
                         .WithMany("Resultados")
-                        .HasForeignKey("IdCarrera")
+                        .HasForeignKey("IdPiloto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
