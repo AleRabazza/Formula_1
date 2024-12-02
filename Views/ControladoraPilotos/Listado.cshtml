@@ -38,7 +38,7 @@
 
 
 <div>
-    @if (ViewBag.PuedeAgregar == false)
+    @if (ViewBag.Pilotos.Count < 20)
     {
         <a href="@Url.Action("Crear", "ControladoraPilotos")" class="btn btn-primary">Agregar Nuevo Piloto</a>
     }

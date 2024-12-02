@@ -16,7 +16,7 @@ namespace Formula_1.Controllers
         }
 
         // GET: ControladoraCarreras/Listado
-        public IActionResult Listado()
+        public IActionResult Listado(string? error)
         {
             List<Carrera> listaCarreras = _context.Carreras
                                                     .Include(c => c.Resultados)
@@ -24,6 +24,10 @@ namespace Formula_1.Controllers
 
             ViewBag.cantPilotos = _context.Pilotos.Count() == 20;
             ViewBag.Carreras = listaCarreras;
+            if (error != null)
+            {
+                ViewBag.Error = error;
+            }
             return View();
         }
        
@@ -133,6 +137,19 @@ namespace Formula_1.Controllers
 
         public IActionResult IngresoDeResultado(int id)
         {
+            // Obtener lista de resultados asociados a la carrera
+            List<Resultado> resultadosRef = _context.Resultados
+                                                 .Include(r => r.Carrera)
+                                                 .Include(r => r.Piloto)
+                                                 .Where(r => r.IdCarrera == id)
+                                                 .ToList();
+
+            if (resultadosRef.Count == 20)
+            {
+                string Error = "Todos los resultados fueron agregados";
+                return RedirectToAction("Listado", new {error = Error});
+            }
+
             // Obtener lista de pilotos con sus escuderías y resultados
             List<Piloto> pilotosRef = _context.Pilotos
                                            .Include(p => p.Resultados)
@@ -141,13 +158,7 @@ namespace Formula_1.Controllers
 
             List<Piloto> pilotos = new List<Piloto>(pilotosRef);
 
-            // Obtener lista de resultados asociados a la carrera
-            List<Resultado> resultadosRef = _context.Resultados
-                                                 .Include(r => r.Carrera)
-                                                 .Include(r => r.Piloto)
-                                                 .Where(r => r.IdCarrera == id)
-                                                 .ToList();
-
+           
             List<Resultado> resultados = new List<Resultado>(resultadosRef);
 
             // Obtener posiciones disponibles
@@ -211,7 +222,7 @@ namespace Formula_1.Controllers
 
             // Asignar puntos al piloto y a su escudería
             
-            return RedirectToAction("Listado");
+            return RedirectToAction("IngresoDeResultado", new {id = IdCarrera});
           
         }
 
@@ -221,24 +232,15 @@ namespace Formula_1.Controllers
 
             int puntos = CalcularPuntosPorPosicion(posicionLlegada);
 
+            Escuderia esc = _context.Escuderia.Find(piloto.EscuderiaId);
+
+
             piloto.PuntajeAcumulado += puntos;
 
-            int idesc = piloto.EscuderiaId;
-
-            Escuderia escuderia = _context.Escuderia.FirstOrDefault(e => e.IdEscuderia == idesc);
-
-            if (escuderia != null)
-            {
-                escuderia.PuntajeAcumulado = puntos;
-                Console.WriteLine("se guardo");
-            }
-            else
-            {
-                Console.WriteLine("error");
-            }
-
+            esc.PuntajeAcumulado += puntos;
        
             _context.Pilotos.Update(piloto);
+            _context.Escuderia.Update(esc);
             _context.SaveChanges();
         }
 

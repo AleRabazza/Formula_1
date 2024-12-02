@@ -22,11 +22,6 @@ namespace Formula_1.Controllers
 
         public IActionResult Listado()
         {
-            List<Piloto> ListaPilotos = _context.Pilotos
-                .Include(piloto => piloto.Escuderia)
-                .ToList();
-            ViewBag.Pilotos = ListaPilotos;
-
             if (_context.Pilotos.Count() == 0)
             {
                 Escuderia RedBull = _context.Escuderia.FirstOrDefault(e => e.Nombre == "Red Bull Racing");
@@ -63,28 +58,17 @@ namespace Formula_1.Controllers
                     new Piloto(55, "Carlos Sainz", DateOnly.Parse("1994-09-01"), "España", Ferrari),
                     new Piloto(77, "Valtteri Bottas", DateOnly.Parse("1989-08-28"), "Finlandia", AlfaRomeo)
                 };
-            
+
 
                 _context.Pilotos.AddRange(pilotosPrecargados);
                 _context.SaveChanges();
             }
+
             ViewBag.Pilotos = _context.Pilotos
                     .Include(piloto => piloto.Escuderia)
                     .ToList();
-            ViewBag.PuedeAgregar = validar();
 
-
-            return View("Listado");
-        }
-
-        public bool validar()
-        {
-            if (_context.Pilotos.ToList().Count == 20)
-            {
-                return true;
-            }
-
-            return false;
+            return View();
         }
      
         // GET: ControladoraPilotos/Details/5
