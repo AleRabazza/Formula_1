@@ -28,9 +28,17 @@ namespace Formula_1.Models
             PaisDeOrigen = paisDeOrigen;
             SponsorPrincipal = sponsorPrincipal;
             PuntajeAcumulado = 0;
-
-
         }
+
+        public Escuderia( string nombre, string paisDeOrigen, string sponsorPrincipal, int puntajeAcumulado, int cantidadDePilotos)
+        {
+            Nombre = nombre;
+            PaisDeOrigen = paisDeOrigen;
+            SponsorPrincipal = sponsorPrincipal;
+            PuntajeAcumulado = 0;
+            CantidadDePilotos = cantidadDePilotos;
+        }
+
         public bool Validacion()
         {
             if(string.IsNullOrEmpty(PaisDeOrigen) || string.IsNullOrEmpty(Nombre) || string.IsNullOrEmpty(SponsorPrincipal)){

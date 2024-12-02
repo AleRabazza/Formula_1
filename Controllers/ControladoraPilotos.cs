@@ -71,11 +71,21 @@ namespace Formula_1.Controllers
             ViewBag.Pilotos = _context.Pilotos
                     .Include(piloto => piloto.Escuderia)
                     .ToList();
-                ViewBag.PuedeAgregar = _context.Pilotos.Count() < 20 ? true : false;
+            ViewBag.PuedeAgregar = validar();
 
             
 
             return View("Listado");
+        }
+
+        public bool validar()
+        {
+            if (_context.Pilotos.ToList().Count == 20)
+            {
+                return true;
+            }
+
+            return false;
         }
      
         // GET: ControladoraPilotos/Details/5
@@ -241,6 +251,14 @@ namespace Formula_1.Controllers
             {
                 return NotFound();
             }
+
+            Escuderia escuderia = _context.Escuderia.Find(piloto.EscuderiaId);
+            if (escuderia != null && escuderia.CantidadDePilotos > 0) 
+            {
+                escuderia.CantidadDePilotos--;
+                _context.Escuderia.Update(escuderia); 
+            }
+
 
             _context.Pilotos.Remove(piloto);
             _context.SaveChanges();

@@ -25,15 +25,15 @@ namespace Formula_1.Controllers
                 // Precarga de datos si no existen escuderías
                 List<Escuderia> escuderiasPreCargadas = new List<Escuderia>
                 {
-                    new Escuderia("Ferrari", "Italia", "Shell", 0),
-                    new Escuderia("Mercedes", "Alemania", "Petronas", 0),
-                    new Escuderia("Red Bull Racing", "Austria", "Oracle", 0),
-                    new Escuderia("McLaren", "Reino Unido", "Gulf Oil", 0),
-                    new Escuderia("Alpine", "Francia", "BWT", 0),
-                    new Escuderia("Aston Martin", "Reino Unido", "Cognizant", 0),
-                    new Escuderia("Alfa Romeo", "Suiza", "Orlen", 0),
-                    new Escuderia("Haas", "Estados Unidos", "MoneyGram", 0),
-                    new Escuderia("Williams", "Reino Unido", "Duracell", 0)
+                    new Escuderia("Ferrari", "Italia", "Shell", 0, 2),
+                    new Escuderia("Mercedes", "Alemania", "Petronas", 0, 2),
+                    new Escuderia("Red Bull Racing", "Austria", "Oracle", 0, 2),
+                    new Escuderia("McLaren", "Reino Unido", "Gulf Oil", 0, 2),
+                    new Escuderia("Alpine", "Francia", "BWT", 0 , 2),
+                    new Escuderia("Aston Martin", "Reino Unido", "Cognizant", 0, 2),
+                    new Escuderia("Alfa Romeo", "Suiza", "Orlen", 0, 2),
+                    new Escuderia("Haas", "Estados Unidos", "MoneyGram", 0 , 2),
+                    new Escuderia("Williams", "Reino Unido", "Duracell", 0, 2)
         };
 
                 // Agrega las escuderías al contexto y guarda cambios
