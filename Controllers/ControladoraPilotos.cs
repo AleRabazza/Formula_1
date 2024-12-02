@@ -73,7 +73,6 @@ namespace Formula_1.Controllers
                     .ToList();
             ViewBag.PuedeAgregar = validar();
 
-            
 
             return View("Listado");
         }
