@@ -221,16 +221,23 @@ namespace Formula_1.Controllers
 
             int puntos = CalcularPuntosPorPosicion(posicionLlegada);
 
-            // Asignar puntos al piloto
             piloto.PuntajeAcumulado += puntos;
 
-            // Asignar puntos a la escudería
-            if (piloto.Escuderia != null)
+            int idesc = piloto.EscuderiaId;
+
+            Escuderia escuderia = _context.Escuderia.FirstOrDefault(e => e.IdEscuderia == idesc);
+
+            if (escuderia != null)
             {
-                piloto.Escuderia.PuntajeAcumulado += puntos;
-                
+                escuderia.PuntajeAcumulado = puntos;
+                Console.WriteLine("se guardo");
+            }
+            else
+            {
+                Console.WriteLine("error");
             }
 
+       
             _context.Pilotos.Update(piloto);
             _context.SaveChanges();
         }
