@@ -15,7 +15,7 @@ namespace Formula_1.Models
 
         public string SponsorPrincipal { get; set; }
 
-        public List<Piloto> pilotos { get; set; }
+        public List<Piloto> Pilotos { get; set; }
 
         public int CantidadDePilotos { get; set; }
 

@@ -26,7 +26,7 @@ namespace Formula_1.Controllers
             Pilotos.Sort((p1, p2) => p2.PuntajeAcumulado.CompareTo(p1.PuntajeAcumulado));
 
             List<Escuderia> Escuderias = _context.Escuderia
-                                                    .Include(e => e.pilotos)
+                                                    .Include(e => e.Pilotos)
                                                     .ToList();
 
             Escuderias.Sort((e1, e2) => e2.PuntajeAcumulado.CompareTo(e1.PuntajeAcumulado));

@@ -142,7 +142,7 @@ namespace Formula_1.Migrations
             modelBuilder.Entity("Formula_1.Models.Piloto", b =>
                 {
                     b.HasOne("Formula_1.Models.Escuderia", "Escuderia")
-                        .WithMany("pilotos")
+                        .WithMany("Pilotos")
                         .HasForeignKey("EscuderiaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -176,7 +176,7 @@ namespace Formula_1.Migrations
 
             modelBuilder.Entity("Formula_1.Models.Escuderia", b =>
                 {
-                    b.Navigation("pilotos");
+                    b.Navigation("Pilotos");
                 });
 
             modelBuilder.Entity("Formula_1.Models.Piloto", b =>

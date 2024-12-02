@@ -101,7 +101,7 @@ namespace Formula_1.Controllers
         public IActionResult Crear()
         {
             List<Escuderia> escuderiaLista = _context.Escuderia.Where(esc => esc.CantidadDePilotos < 2)
-                                                .Include(e => e.pilotos)
+                                                .Include(e => e.Pilotos)
                                                 .ToList();
             ViewBag.Escuderias = escuderiaLista;
 
