@@ -30,7 +30,7 @@
 					<td>@piloto.Escuderia.Nombre</td>
 					<td>@piloto.PuntajeAcumulado</td>
 					<td>
-						<a href="@Url.Action("Historial", "ControladoraEstadisticas", new { id = piloto.NumeroPiloto })" class="btn btn-primary btn-sm">Ver</a>
+						<a href="@Url.Action("HistorialPiloto", "ControladoraEstadisticas", new { id = piloto.NumeroPiloto })" class="btn btn-primary btn-sm">Ver</a>
 					</td>
 				</tr>
 			}
@@ -63,7 +63,7 @@
 					<td>@(esc.Pilotos[1].NombrePiloto ?? string.Empty)</td>
 					<td>@esc.PuntajeAcumulado</td>
 					<td>
-						<a href="@Url.Action("HistorialEscuderias", "ControladoraCarreras", new { id = esc.IdEscuderia })" class="btn btn-primary btn-sm">Ver</a>
+						<a href="@Url.Action("HistorialEscuderia", "ControladoraEstadisticas", new { id = esc.IdEscuderia })" class="btn btn-primary btn-sm">Ver</a>
 					</td>
 				</tr>
 			}

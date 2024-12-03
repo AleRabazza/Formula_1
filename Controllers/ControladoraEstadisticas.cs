@@ -37,6 +37,34 @@ namespace Formula_1.Controllers
             return View("Estadistica");
         }
 
-        
+        public IActionResult HistorialPiloto(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<Piloto> pilotos = _context.Pilotos.Include(p => p.Resultados).ToList();
+            Piloto piloto = pilotos.Find(p => p.NumeroPiloto == id);
+
+            if (piloto == null)
+            {
+                return NotFound();
+            }
+
+            List<Resultado> resultado = new List<Resultado>(_context.Resultados.Include(r => r.Carrera).Where(r => r.IdPiloto == id));
+
+            ViewBag.Piloto = piloto;
+            ViewBag.Resultados = resultado;
+
+            return View("HistorialPiloto");
+        }
+
+        public IActionResult HistorialEscuderia(int id)
+        {
+            return View("HistorialEscuderia");
+        }
     }
+
+    
 }
