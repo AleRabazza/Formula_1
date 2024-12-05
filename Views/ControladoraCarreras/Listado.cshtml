@@ -29,7 +29,6 @@
                 <td>@carrera.Ciudad</td>
                 <td>@carrera.fecha.ToString("dd/MM/yyyy")</td>
                 <td>
-                    <a href="@Url.Action("Detalles", "ControladoraCarreras", new { id = carrera.IdCarrera })" class="btn btn-info btn-sm">Detalles</a>
                     <a href="@Url.Action("Editar", "ControladoraCarreras", new { id = carrera.IdCarrera })" class="btn btn-warning btn-sm">Editar</a>
                     <a href="@Url.Action("Eliminar", "ControladoraCarreras", new { id = carrera.IdCarrera })" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>

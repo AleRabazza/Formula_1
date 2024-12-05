@@ -70,25 +70,7 @@ namespace Formula_1.Controllers
 
             return View();
         }
-     
-        // GET: ControladoraPilotos/Details/5
-        public ActionResult detalles(int? numP)
-        {
-            if (numP == null)
-            {
-                return NotFound();
-            }
-            Piloto? pilotoDetalles = _context.Pilotos
-               .Include(p => p.NumeroPiloto)
-               .FirstOrDefault(m => m.NumeroPiloto == numP);
-            if (pilotoDetalles == null)
-            {
-                return NotFound();
-            }
-
-            return View(pilotoDetalles);
-
-        }
+    
 
         // GET: ControladoraPilotos/Create
         public IActionResult Crear()

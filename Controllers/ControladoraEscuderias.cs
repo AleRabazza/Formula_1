@@ -1,9 +1,6 @@
 ﻿using Formula_1.Data;
 using Formula_1.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 
 namespace Formula_1.Controllers
 {
@@ -44,7 +41,7 @@ namespace Formula_1.Controllers
             // Obtiene la lista de escuderías actualizada
             List<Escuderia> listaEscuderias = _context.Escuderia.ToList();
             ViewBag.Escuderias = listaEscuderias;
-            ViewBag.PuedeAgregar = Validacion1(); 
+            ViewBag.PuedeAgregar = Validacion1();
 
             return View("Listado");
         }
@@ -56,24 +53,6 @@ namespace Formula_1.Controllers
             }
             return false;
         }
-
-        public ActionResult Detalles(int? IdEscuderia)
-        {
-            if (IdEscuderia == null)
-            {
-                return NotFound();
-            }
-            Escuderia? escuderiaDetalles = _context.Escuderia
-               .Include(e => e.IdEscuderia)
-               .FirstOrDefault(m => m.IdEscuderia == IdEscuderia);
-            if (escuderiaDetalles == null)
-            {
-                return NotFound();
-            }
-
-            return View(escuderiaDetalles);
-        }
-
 
         [HttpPost]
         public ActionResult Crear(string nombre, string paisDeOrigen, string sponsorPrincipal, int puntajeAcumulado)
@@ -121,19 +100,20 @@ namespace Formula_1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(int id, string nombre, string paisDeOrigen, string sponsorPrincipal, int puntaje) 
+        public IActionResult Editar(int id, string nombre, string paisDeOrigen, string sponsorPrincipal, int puntaje)
         {
             Escuderia? escuderia = _context.Escuderia.Find(id);
-            if (escuderia == null) {
+            if (escuderia == null)
+            {
 
                 return View("Listado");
 
-             }
-          
-            escuderia.Nombre=nombre;
-            escuderia.PaisDeOrigen=paisDeOrigen;
-            escuderia.SponsorPrincipal=sponsorPrincipal;
-        
+            }
+
+            escuderia.Nombre = nombre;
+            escuderia.PaisDeOrigen = paisDeOrigen;
+            escuderia.SponsorPrincipal = sponsorPrincipal;
+
 
             if (escuderia.Validacion())
             {
@@ -143,14 +123,14 @@ namespace Formula_1.Controllers
             }
             ViewBag.Nombre = nombre;
             ViewBag.PaisOrigen = paisDeOrigen;
-            ViewBag.SponsorPrincipal=sponsorPrincipal;
-           
+            ViewBag.SponsorPrincipal = sponsorPrincipal;
+
 
 
             return View("Editar");
         }
 
-       
+
         public ActionResult Eliminar(int id)
         {
             if (id == null)
