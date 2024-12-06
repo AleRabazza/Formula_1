@@ -140,7 +140,7 @@ namespace Formula_1.Controllers
 
             ViewBag.Piloto = piloto;
             ViewBag.Escuderias = _context.Escuderia
-                .Where(e => e.CantidadDePilotos < 2 || e.IdEscuderia == piloto.Escuderia.IdEscuderia)
+                .Where(e => e.CantidadDePilotos < 2 && e.IdEscuderia != piloto.Escuderia.IdEscuderia)
                 .ToList();
 
             ViewBag.Nombre = piloto.NombrePiloto;
@@ -153,8 +153,7 @@ namespace Formula_1.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Editar(int id, string nombre, int numero, DateOnly FechaNac, string PaisOrg, int Escuderia)
+        public ActionResult Editar(int id, string nombre, int numero, DateOnly FechaNac, string PaisOrg, int Escuderia)
         {
             Piloto? piloto = _context.Pilotos
                 .Include(p => p.Escuderia)
@@ -175,15 +174,18 @@ namespace Formula_1.Controllers
             piloto.PaisDeOrigen = PaisOrg;
 
 
-            if (piloto.Escuderia.IdEscuderia != Escuderia)
-            {
-                piloto.Escuderia.CantidadDePilotos--;
-                nuevaEscuderia.CantidadDePilotos++;
-                piloto.Escuderia = nuevaEscuderia;
-            }
+            
 
             if (piloto.Validacion())
             {
+                if (piloto.Escuderia.IdEscuderia != Escuderia)
+                {
+                    piloto.Escuderia.CantidadDePilotos--;
+                    _context.Escuderia.Update(piloto.Escuderia);
+                    nuevaEscuderia.CantidadDePilotos++;
+                    _context.Escuderia.Update(piloto.Escuderia);
+                    piloto.Escuderia = nuevaEscuderia;
+                }
                 _context.Pilotos.Update(piloto);
                 _context.SaveChanges();
                 return RedirectToAction("Listado");

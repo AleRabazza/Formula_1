@@ -21,7 +21,7 @@ namespace Formula_1.Controllers
             List<Piloto> Pilotos = _context.Pilotos
                                     .Include(p => p.Resultados)
                                     .Include(p => p.Escuderia)
-                                    .ToList();
+                                    .ToList();        
 
             Pilotos.Sort((p1, p2) => p2.PuntajeAcumulado.CompareTo(p1.PuntajeAcumulado));
 
@@ -29,7 +29,7 @@ namespace Formula_1.Controllers
                                                     .Include(e => e.Pilotos)
                                                     .ToList();
 
-            Escuderias.Sort((e1, e2) => e2.PuntajeAcumulado.CompareTo(e1.PuntajeAcumulado));
+            Escuderias.Sort((e1, e2) => e2.PuntajeAcumulado.CompareTo(e1.PuntajeAcumulado));            
 
             ViewBag.Pilotos = Pilotos;
             ViewBag.Escuderias = Escuderias;

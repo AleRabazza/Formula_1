@@ -9,23 +9,23 @@
        
         <div class="mb-3">
             <label for="Nombre" class="form-label">Nombre</label>
-            <input type="text" name="nombre" class="form-control" value="@ViewBag.Piloto.NombrePiloto" required />
+            <input type="text" name="nombre" class="form-control" value="@ViewBag.Piloto.NombrePiloto" />
         </div>
         <div class="mb-3">
             <label for="Numero" class="form-label">Número del auto</label>
-            <input type="number" name="numero" class="form-control" value="@ViewBag.Piloto.NumeroAuto" required />
+            <input type="number" name="numero" class="form-control" value="@ViewBag.Piloto.NumeroAuto" />
         </div>
         <div class="mb-3">
             <label for="FechaNac" class="form-label">Fecha de Nacimiento</label>
-            <input type="date"  name="FechaNac" class="form-control" value="@ViewBag.Piloto.FechaNac.ToString("yyyy-MM-dd")" required />
+            <input type="date"  name="FechaNac" class="form-control" value="@ViewBag.Piloto.FechaNac.ToString("yyyy-MM-dd")" />
         </div>
         <div class="mb-3">
             <label for="PaisOrg" class="form-label">País de Origen</label>
-            <input type="text" name="PaisOrg" class="form-control" value="@ViewBag.Piloto.PaisDeOrigen" required />
+            <input type="text" name="PaisOrg" class="form-control" value="@ViewBag.Piloto.PaisDeOrigen" />
         </div>
         <div class="mb-3">
             <label for="Escuderia" class="form-label">Seleccione su Escudería</label>
-            <select id="Escuderia" name="Escuderia" class="form-select" required>
+            <select id="Escuderia" name="Escuderia" class="form-select">
                 
                 <option value="@ViewBag.Piloto.Escuderia.IdEscuderia" selected>
                     @ViewBag.Piloto.Escuderia.Nombre

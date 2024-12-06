@@ -22,17 +22,19 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (Piloto piloto in ViewBag.Pilotos)
-			{
-				<tr>
-					<td>@piloto.NumeroAuto</td>
-					<td>@piloto.NombrePiloto</td>
-					<td>@piloto.Escuderia.Nombre</td>
-					<td>@piloto.PuntajeAcumulado</td>
-					<td>
-						<a href="@Url.Action("HistorialPiloto", "ControladoraEstadisticas", new { id = piloto.NumeroPiloto })" class="btn btn-primary btn-sm">Ver</a>
-					</td>
-				</tr>
+			@if(ViewBag.Pilotos != null){
+				@foreach (Piloto piloto in ViewBag.Pilotos)
+				{
+					<tr>
+						<td>@piloto.NumeroAuto</td>
+						<td>@piloto.NombrePiloto</td>
+						<td>@piloto.Escuderia.Nombre</td>
+						<td>@piloto.PuntajeAcumulado</td>
+						<td>
+							<a href="@Url.Action("HistorialPiloto", "ControladoraEstadisticas", new { id = piloto.NumeroPiloto })" class="btn btn-primary btn-sm">Ver</a>
+						</td>
+					</tr>
+				}
 			}
 		</tbody>
 	</table>
@@ -59,14 +61,29 @@
 					<td>@esc.Nombre</td>
 					<td>@esc.SponsorPrincipal</td>
 					<td>@esc.PaisDeOrigen</td>
-					<td>@(esc.Pilotos[0].NombrePiloto ?? string.Empty) </td>
-					<td>@(esc.Pilotos[1].NombrePiloto ?? string.Empty)</td>
+					@if (esc.Pilotos.Count >= 1)
+					{
+						<td>@(esc.Pilotos[0].NombrePiloto) </td>
+					}
+					else
+					{
+						<td>Vacante</td>
+					}
+					@if (esc.Pilotos.Count == 2)
+					{
+						<td>@(esc.Pilotos[1].NombrePiloto) </td>
+					}
+					else
+					{
+						<td>Vacante</td>
+					}
 					<td>@esc.PuntajeAcumulado</td>
 					<td>
 						<a href="@Url.Action("HistorialEscuderia", "ControladoraEstadisticas", new { id = esc.IdEscuderia })" class="btn btn-primary btn-sm">Ver</a>
 					</td>
 				</tr>
 			}
+		
 		</tbody>
 	</table>
 </div>
